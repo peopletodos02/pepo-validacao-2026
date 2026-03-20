@@ -1,129 +1,177 @@
 import streamlit as st
 import pandas as pd
 import requests
-import io
+import os
+from PIL import Image
 from datetime import datetime
 
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# 🔗 SEU LINK (mantém esse mesmo)
-ARQUIVO_EXCEL = "https://desenvolvimentocartaodetodo-my.sharepoint.com/:x:/g/personal/regianeandrade_cartaodetodos_com/IQBGxVER1ruUTbcxWH65p0f1AU4M4VWNfst1N2R-sxfmeA4?e=r3Udaa"
+# 🔴 COLE SUA URL HTTP CORRETA AQUI
+WEBHOOK_URL = "COLE_AQUI_SUA_URL_HTTP_DO_POWER_AUTOMATE"
 
+ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
-ABA_RESPOSTAS = 'Respostas'
+NOME_IMAGEM = 'mascote_pepo.png'
+PASTA_BACKUP = 'backup_envios'
 
-WEBHOOK_URL = "COLE_AQUI_SUA_URL_HTTP"
+# Criar pasta de backup se não existir
+os.makedirs(PASTA_BACKUP, exist_ok=True)
 
-# 🔄 Atualizar cache
-if st.button("🔄 Atualizar dados"):
-    st.cache_data.clear()
-
-@st.cache_data(ttl=30)
+@st.cache_data(ttl=10)
 def carregar_dados():
+    if not os.path.exists(ARQUIVO_EXCEL):
+        return None
+    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
+    df.columns = df.columns.str.strip().str.lower()
+
+    if 'data de admissão' in df.columns:
+        df['data de admissão'] = pd.to_datetime(df['data de admissão'], errors='coerce')
+
+    # Criar coluna de status se não existir
+    if 'status_resposta' not in df.columns:
+        df['status_resposta'] = 'Não Respondido'
+
+    return df
+
+df_base = carregar_dados()
+
+if df_base is not None:
+
     try:
-        response = requests.get(ARQUIVO_EXCEL, allow_redirects=True)
+        col_esq, col_meio, col_dir = st.columns([1, 2, 1])
+        with col_meio:
+            st.image(Image.open(NOME_IMAGEM), width=180)
+    except:
+        st.write("🤖 **PEPO**")
 
-        # 🔍 DEBUG (remova depois)
-        content_type = response.headers.get("Content-Type", "")
-        
-        if "excel" not in content_type and "spreadsheet" not in content_type:
-            st.error("❌ O SharePoint não retornou um arquivo Excel válido.")
-            st.write("Content-Type:", content_type)
-            st.write(response.text[:500])
-            st.stop()
+    st.title("Validação Pesquisa Pepo 2026")
+    st.markdown("### Olá gestor, selecione seu nome e valide sua equipe:")
+    st.divider()
 
-        arquivo = io.BytesIO(response.content)
+    col_gestor = 'gestor avaliador'
 
-        df_base = pd.read_excel(arquivo, sheet_name=ABA_BASE)
-        df_respostas = pd.read_excel(arquivo, sheet_name=ABA_RESPOSTAS)
+    if col_gestor in df_base.columns:
 
-        df_base.columns = df_base.columns.str.strip().str.lower()
-        df_respostas.columns = df_respostas.columns.str.strip().str.lower()
+        gestores = sorted(df_base[col_gestor].dropna().unique())
+        gestor_sel = st.selectbox("Selecione seu nome:", [""] + list(gestores))
 
-        return df_base, df_respostas
+        if gestor_sel:
 
-    except Exception as e:
-        st.error(f"Erro ao carregar dados: {e}")
-        st.stop()
+            # 🔹 FILTRO DA EQUIPE DO GESTOR
+            equipe = df_base[df_base[col_gestor] == gestor_sel].copy()
 
-df_base, df_respostas = carregar_dados()
+            # 🔹 REGRA DE ELEGIBILIDADE
+            data_limite = pd.to_datetime('2026-01-31')
 
-# 📊 DASHBOARD
-st.subheader("📊 Dashboard")
+            def formatar_nome(row):
+                if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
+                    return f"{row['nome']} ✅"
+                return f"{row['nome']} ❌"
 
-total = df_base['gestor avaliador'].nunique()
-respondidos = df_respostas['gestor'].nunique()
+            equipe['nome_formatado'] = equipe.apply(formatar_nome, axis=1)
 
-pct = (respondidos / total * 100) if total > 0 else 0
+            # 🔹 LISTA DE PARES APENAS DA EQUIPE
+            lista_pares_formatada = sorted(equipe['nome_formatado'].unique())
 
-c1, c2, c3 = st.columns(3)
-c1.metric("Total Gestores", total)
-c2.metric("Respondidos", respondidos)
-c3.metric("% Conclusão", f"{pct:.1f}%")
+            respostas_lote = []
+            pendencia_pares = False
 
-st.divider()
+            for i, row in equipe.iterrows():
+                nome_f = row.get('nome', f"Colab {i}")
 
-# 👤 SELEÇÃO
-gestores = sorted(df_base['gestor avaliador'].dropna().unique())
-gestor_sel = st.selectbox("Selecione seu nome:", [""] + gestores)
+                with st.expander(f"👤 {nome_f}", expanded=True):
+                    st.write(f"**Cargo:** {row.get('cargo')} | **Unidade:** {row.get('unidade')}")
 
-if gestor_sel:
+                    c1, c2, c3, c4 = st.columns(4)
+                    with c1:
+                        g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
+                    with c2:
+                        c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
+                    with c3:
+                        u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
+                    with c4:
+                        d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
-    if gestor_sel in df_respostas['gestor'].values:
-        st.warning("⚠️ Você já respondeu.")
-        st.stop()
+                    p1 = st.selectbox(
+                        f"Selecione o 1º Par para {nome_f} *",
+                        [""] + lista_pares_formatada,
+                        key=f"p1_{i}"
+                    )
 
-    equipe = df_base[df_base['gestor avaliador'] == gestor_sel].copy()
+                    p2 = st.selectbox(
+                        f"Selecione o 2º Par para {nome_f} *",
+                        [""] + lista_pares_formatada,
+                        key=f"p2_{i}"
+                    )
 
-    data_limite = pd.to_datetime('2026-01-31')
+                    if p1 == "" or p2 == "":
+                        pendencia_pares = True
 
-    def formatar_nome(row):
-        if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
-            return f"{row['nome']} ✅"
-        return f"{row['nome']} ❌"
+                    respostas_lote.append({
+                        "colaborador": nome_f,
+                        "p1": p1,
+                        "p2": p2,
+                        "status_gestor": g_ok,
+                        "status_cargo": c_ok,
+                        "status_unidade": u_ok,
+                        "status_depto": d_ok
+                    })
 
-    equipe['nome_formatado'] = equipe.apply(formatar_nome, axis=1)
-    lista_pares = sorted(equipe['nome_formatado'].unique())
+            st.divider()
+            comentario_geral = st.text_area("Observações (Opcional):")
 
-    respostas = []
-    erro = False
+            if st.button("🚀 Finalizar e Salvar Dados", type="primary"):
 
-    for i, row in equipe.iterrows():
-        nome = row['nome']
+                if pendencia_pares:
+                    st.error("⚠️ Todos os pares devem ser selecionados.")
+                
+                elif any("❌" in r['p1'] or "❌" in r['p2'] for r in respostas_lote):
+                    st.error("⚠️ Você selecionou um par não elegível.")
+                
+                else:
+                    payload = {
+                        "gestor_avaliador": gestor_sel,
+                        "observacoes": comentario_geral,
+                        "data_envio": datetime.now().strftime("%d/%m/%Y"),
+                        "lista_equipe": respostas_lote
+                    }
 
-        with st.expander(nome, expanded=True):
-            p1 = st.selectbox("Par 1", [""] + lista_pares, key=f"p1_{i}")
-            p2 = st.selectbox("Par 2", [""] + lista_pares, key=f"p2_{i}")
+                    try:
+                        res = requests.post(
+                            WEBHOOK_URL,
+                            json=payload,
+                            headers={"Content-Type": "application/json"},
+                            timeout=20
+                        )
 
-            if not p1 or not p2:
-                erro = True
+                        if res.status_code in [200, 202]:
 
-            respostas.append({
-                "colaborador": nome,
-                "p1": p1,
-                "p2": p2,
-                "status_gestor": "Sim",
-                "status_cargo": "Sim",
-                "status_unidade": "Sim",
-                "status_depto": "Sim"
-            })
+                            # ✅ BACKUP LOCAL
+                            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                            arquivo_backup = f"{PASTA_BACKUP}/backup_{gestor_sel}_{timestamp}.csv"
 
-    if st.button("🚀 Enviar"):
+                            pd.DataFrame(respostas_lote).to_csv(
+                                arquivo_backup,
+                                index=False,
+                                encoding='utf-8-sig'
+                            )
 
-        if erro:
-            st.error("Preencha todos os pares.")
-            st.stop()
+                            # ✅ ATUALIZA STATUS LOCAL
+                            df_base.loc[df_base[col_gestor] == gestor_sel, 'status_resposta'] = 'Respondido'
 
-        payload = {
-            "gestor_avaliador": gestor_sel,
-            "observacoes": "",
-            "data_envio": datetime.now().strftime("%d/%m/%Y"),
-            "lista_equipe": respostas
-        }
+                            st.balloons()
+                            st.success("✅ Dados enviados e salvos com sucesso!")
+                            st.info(f"📁 Backup salvo em: {arquivo_backup}")
 
-        res = requests.post(WEBHOOK_URL, json=payload)
+                        else:
+                            st.error(f"Erro {res.status_code}: {res.text}")
 
-        if res.status_code in [200, 202]:
-            st.success("✅ Enviado!")
-        else:
-            st.error(f"Erro: {res.status_code}")
+                    except Exception as e:
+                        st.error(f"Erro de conexão: {e}")
+
+    else:
+        st.error(f"Coluna '{col_gestor}' não encontrada.")
+
+else:
+    st.error("Arquivo base_pepo.xlsx não encontrado.")
