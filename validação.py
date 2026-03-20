@@ -17,7 +17,7 @@ def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL):
         return None
     # Carrega a planilha e limpa os nomes das colunas
-    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
+    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE, engine='openpyxl')
     df.columns = df.columns.str.strip().str.lower()
     return df
 
