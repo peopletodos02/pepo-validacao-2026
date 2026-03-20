@@ -8,7 +8,7 @@ from datetime import datetime
 # PEPOResponseFlow
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# Verifique se mudou no Power Automate para "Qualquer pessoa"
+# Verifique se o link está correto e o fluxo LIGADO no Power Automate
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/14f4e4ebe95f4087bdf0959d5768773c/triggers/manual/paths/invoke?api-version=1"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
@@ -51,12 +51,11 @@ if df_base is not None:
                     return f"{row['nome']} ✅"
                 return f"{row['nome']} ❌ (Não Elegível)"
             
-            # Criamos uma lista de nomes com o selo de elegível
             df_base['nome_formatado'] = df_base.apply(formatar_nome, axis=1)
             lista_pares_formatada = sorted(df_base['nome_formatado'].unique())
-            # ------------------------------
 
             respostas_lote = []
+            pendencia_pares = False # Marcador de erro
 
             for i, row in equipe.iterrows():
                 nome_f = row.get('nome', f"Colab {i}")
@@ -69,9 +68,12 @@ if df_base is not None:
                     with c3: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
                     with c4: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
-                    # Seleção de Pares com indicação visual
-                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_pares_formatada, key=f"p1_{i}")
-                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_pares_formatada, key=f"p2_{i}")
+                    p1 = st.selectbox(f"Selecione o 1º Par para {nome_f} *", [""] + lista_pares_formatada, key=f"p1_{i}")
+                    p2 = st.selectbox(f"Selecione o 2º Par para {nome_f} *", [""] + lista_pares_formatada, key=f"p2_{i}")
+
+                    # Verifica se algum par ficou vazio
+                    if p1 == "" or p2 == "":
+                        pendencia_pares = True
 
                     respostas_lote.append({
                         "colaborador": nome_f,
@@ -81,12 +83,17 @@ if df_base is not None:
                     })
 
             st.divider()
-            # CAMPO DE COMENTÁRIOS ADICIONADO
-            comentario_geral = st.text_area("Alguma observação geral sobre a equipe ou validação?")
+            comentario_geral = st.text_area("Observações (Opcional):")
 
             if st.button("🚀 Finalizar e Salvar Dados", type="primary"):
-                if any("❌" in r['p1'] or "❌" in r['p2'] for r in respostas_lote):
-                    st.error("Atenção: Você selecionou um par 'Não Elegível' (❌). Por favor, corrija antes de enviar.")
+                # 1. VERIFICAÇÃO DE OBRIGATORIEDADE
+                if pendencia_pares:
+                    st.error("⚠️ Erro: Todos os pares de todos os colaboradores devem ser selecionados antes de enviar.")
+                
+                # 2. VERIFICAÇÃO DE ELEGIBILIDADE
+                elif any("❌" in r['p1'] or "❌" in r['p2'] for r in respostas_lote):
+                    st.error("⚠️ Erro: Você selecionou um par 'Não Elegível' (❌). Por favor, corrija.")
+                
                 else:
                     payload = {
                         "gestor_avaliador": gestor_sel,
@@ -95,11 +102,15 @@ if df_base is not None:
                         "lista_equipe": respostas_lote
                     }
                     try:
-                        res = requests.post(WEBHOOK_URL, json=payload, timeout=10)
+                        res = requests.post(WEBHOOK_URL, json=payload, timeout=15)
                         if res.status_code in [200, 202]:
                             st.balloons()
-                            st.success("✅ Tudo pronto! Dados salvos com sucesso.")
+                            st.success("✅ Validação concluída! Os dados foram salvos.")
                         else:
-                            st.error(f"Erro {res.status_code}: Mude o fluxo para 'Qualquer pessoa' no Power Automate.")
+                            st.error(f"Erro {res.status_code}: O servidor recusou. Verifique se o fluxo está LIGADO.")
                     except Exception as e:
                         st.error(f"Erro de conexão: {e}")
+    else:
+        st.error(f"Coluna '{col_gestor}' não encontrada.")
+else:
+    st.error("Arquivo base_pepo.xlsx não encontrado no GitHub.")
