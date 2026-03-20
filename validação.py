@@ -5,22 +5,24 @@ import os
 from PIL import Image
 from datetime import datetime
 
-# PEPOResponseFlow
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# COLE AQUI A URL QUE VOCÊ COPIOU DO POWER AUTOMATE
-WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/14f4e4ebe95f4087bdf0959d5768773c/triggers/manual/paths/invoke?api-version=1"
+# LINK DO POWER AUTOMATE
+WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/14f4e4ebe95f4087bdf0959d5768773c/triggers/manual/paths/invoke?api-version=1"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 NOME_IMAGEM = 'mascote_pepo.png'
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=30)
 def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL):
         return None
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
     df.columns = df.columns.str.strip().str.lower()
+    # Converte a coluna de admissão para data (ajuste o nome se for diferente na planilha)
+    if 'data de admissão' in df.columns:
+        df['data de admissão'] = pd.to_datetime(df['data de admissão'], errors='coerce')
     return df
 
 df_base = carregar_dados()
@@ -33,7 +35,7 @@ if df_base is not None:
     except: st.write("🤖 **PEPO**")
     
     st.title("Validação Pesquisa Pepo 2026")
-    st.markdown("### Olá gestor, por favor selecione o seu nome e confirme as informações abaixo:")
+    st.markdown("### Olá gestor, selecione seu nome e confirme as informações abaixo:")
     st.divider()
 
     col_gestor = 'gestor avaliador'
@@ -43,6 +45,19 @@ if df_base is not None:
 
         if gestor_sel:
             equipe = df_base[df_base[col_gestor] == gestor_sel]
+            
+            # --- FILTRO DE ELEGIBILIDADE POR DATA ---
+            data_limite = pd.to_datetime('2026-01-31')
+            col_data = 'data de admissão'
+            
+            if col_data in df_base.columns:
+                # Só é elegível quem tem data preenchida e admitido até 31/01/2026
+                df_elegiveis = df_base[df_base[col_data] <= data_limite]
+                lista_pares = sorted(df_elegiveis['nome'].unique())
+            else:
+                lista_pares = sorted(df_base['nome'].unique())
+            # ----------------------------------------
+
             respostas_lote = []
 
             for i, row in equipe.iterrows():
@@ -54,9 +69,8 @@ if df_base is not None:
                     with c3: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
                     with c4: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
-                    lista_todos = sorted(df_base['nome'].unique())
-                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_todos, key=f"p1_{i}")
-                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_todos, key=f"p2_{i}")
+                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_pares, key=f"p1_{i}")
+                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_pares, key=f"p2_{i}")
 
                     respostas_lote.append({
                         "colaborador": nome_f,
@@ -65,21 +79,18 @@ if df_base is not None:
                         "status_unidade": u_ok, "status_depto": d_ok
                     })
 
-            obs = st.text_area("Alguma observação?")
-
             if st.button("🚀 Finalizar e Salvar Dados", type="primary"):
                 payload = {
                     "gestor_avaliador": gestor_sel,
-                    "observacoes": obs,
                     "data_envio": datetime.now().strftime("%d/%m/%Y"),
                     "lista_equipe": respostas_lote
                 }
                 try:
-                    res = requests.post(WEBHOOK_URL, json=payload)
+                    res = requests.post(WEBHOOK_URL, json=payload, timeout=10)
                     if res.status_code in [200, 202]:
                         st.balloons()
-                        st.success("✅ Tudo pronto! Seus dados foram salvos com sucesso.")
+                        st.success("✅ Tudo pronto! Dados salvos com sucesso.")
                     else:
-                        st.error("Erro ao enviar para o servidor.")
+                        st.error(f"Erro {res.status_code}: Verifique se o fluxo no Power Automate está LIGADO.")
                 except Exception as e:
                     st.error(f"Erro de conexão: {e}")
