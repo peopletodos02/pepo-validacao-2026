@@ -8,23 +8,18 @@ from datetime import datetime
 # PEPOResponseFlow
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# COLE AQUI O LINK DO POWER AUTOMATE (Numa única linha e sem aspas extras)
-# Verifique se o fluxo está "LIGADO" na tela inicial dele.
+# Verifique se mudou no Power Automate para "Qualquer pessoa"
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/14f4e4ebe95f4087bdf0959d5768773c/triggers/manual/paths/invoke?api-version=1"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 NOME_IMAGEM = 'mascote_pepo.png'
 
-@st.cache_data(ttl=20)
+@st.cache_data(ttl=10)
 def carregar_dados():
-    if not os.path.exists(ARQUIVO_EXCEL):
-        return None
-    # Carrega e limpa os nomes das colunas
+    if not os.path.exists(ARQUIVO_EXCEL): return None
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
     df.columns = df.columns.str.strip().str.lower()
-    
-    # Converte coluna de admissão para data (ajustado para minúsculo pelo código)
     if 'data de admissão' in df.columns:
         df['data de admissão'] = pd.to_datetime(df['data de admissão'], errors='coerce')
     return df
@@ -32,14 +27,13 @@ def carregar_dados():
 df_base = carregar_dados()
 
 if df_base is not None:
-    # Mascote
     try:
         col_esq, col_meio, col_dir = st.columns([1, 2, 1])
-        with col_meio: st.image(Image.open(NOME_IMAGEM), width=200)
+        with col_meio: st.image(Image.open(NOME_IMAGEM), width=180)
     except: st.write("🤖 **PEPO**")
     
     st.title("Validação Pesquisa Pepo 2026")
-    st.markdown("### Olá gestor, selecione seu nome e confirme as informações abaixo:")
+    st.markdown("### Olá gestor, selecione seu nome e valide sua equipe:")
     st.divider()
 
     col_gestor = 'gestor avaliador'
@@ -50,15 +44,17 @@ if df_base is not None:
         if gestor_sel:
             equipe = df_base[df_base[col_gestor] == gestor_sel]
             
-            # FILTRO DE ELEGIBILIDADE POR DATA
-            # Regra: Admitidos até 31/01/2026
-            if 'data de admissão' in df_base.columns:
-                data_limite = pd.to_datetime('2026-01-31')
-                # Filtra apenas quem tem data preenchida e está dentro da regra
-                df_elegiveis = df_base[df_base['data de admissão'] <= data_limite]
-                lista_pares = sorted(df_elegiveis['nome'].unique())
-            else:
-                lista_pares = sorted(df_base['nome'].unique())
+            # --- REGRA DE ELEGIBILIDADE ---
+            data_limite = pd.to_datetime('2026-01-31')
+            def formatar_nome(row):
+                if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
+                    return f"{row['nome']} ✅"
+                return f"{row['nome']} ❌ (Não Elegível)"
+            
+            # Criamos uma lista de nomes com o selo de elegível
+            df_base['nome_formatado'] = df_base.apply(formatar_nome, axis=1)
+            lista_pares_formatada = sorted(df_base['nome_formatado'].unique())
+            # ------------------------------
 
             respostas_lote = []
 
@@ -73,8 +69,9 @@ if df_base is not None:
                     with c3: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
                     with c4: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
-                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_pares, key=f"p1_{i}")
-                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_pares, key=f"p2_{i}")
+                    # Seleção de Pares com indicação visual
+                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_pares_formatada, key=f"p1_{i}")
+                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_pares_formatada, key=f"p2_{i}")
 
                     respostas_lote.append({
                         "colaborador": nome_f,
@@ -83,23 +80,26 @@ if df_base is not None:
                         "status_unidade": u_ok, "status_depto": d_ok
                     })
 
+            st.divider()
+            # CAMPO DE COMENTÁRIOS ADICIONADO
+            comentario_geral = st.text_area("Alguma observação geral sobre a equipe ou validação?")
+
             if st.button("🚀 Finalizar e Salvar Dados", type="primary"):
-                # Garanta que o JSON que o Power Automate recebe é este:
-                payload = {
-                    "gestor_avaliador": gestor_sel,
-                    "data_envio": datetime.now().strftime("%d/%m/%Y"),
-                    "lista_equipe": respostas_lote
-                }
-                try:
-                    res = requests.post(WEBHOOK_URL, json=payload, timeout=10)
-                    if res.status_code in [200, 202]:
-                        st.balloons()
-                        st.success("✅ Tudo pronto! Dados salvos na planilha da Regi.")
-                    else:
-                        st.error(f"Erro {res.status_code}: O servidor recusou. Verifique se o fluxo está ATIVO no Power Automate.")
-                except Exception as e:
-                    st.error(f"Erro de conexão com o servidor: {e}. Verifique a URL no código.")
-    else:
-        st.error(f"Coluna '{col_gestor}' não encontrada na aba Base_Dados.")
-else:
-    st.error("Erro: Planilha base_pepo.xlsx não encontrada no GitHub.")
+                if any("❌" in r['p1'] or "❌" in r['p2'] for r in respostas_lote):
+                    st.error("Atenção: Você selecionou um par 'Não Elegível' (❌). Por favor, corrija antes de enviar.")
+                else:
+                    payload = {
+                        "gestor_avaliador": gestor_sel,
+                        "observacoes": comentario_geral,
+                        "data_envio": datetime.now().strftime("%d/%m/%Y"),
+                        "lista_equipe": respostas_lote
+                    }
+                    try:
+                        res = requests.post(WEBHOOK_URL, json=payload, timeout=10)
+                        if res.status_code in [200, 202]:
+                            st.balloons()
+                            st.success("✅ Tudo pronto! Dados salvos com sucesso.")
+                        else:
+                            st.error(f"Erro {res.status_code}: Mude o fluxo para 'Qualquer pessoa' no Power Automate.")
+                    except Exception as e:
+                        st.error(f"Erro de conexão: {e}")
