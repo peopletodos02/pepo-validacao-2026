@@ -10,7 +10,7 @@ st.set_page_config(page_title="PEPO 2026", layout="wide")
 # 🔴 COLE SUA URL HTTP CORRETA AQUI
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 
-ARQUIVO_EXCEL = 'base_pepo.xlsx'
+ARQUIVO_EXCEL = "https://desenvolvimentocartaodetodo-my.sharepoint.com/:x:/g/personal/regianeandrade_cartaodetodos_com/IQBGxVER1ruUTbcxWH65p0f1AU4M4VWNfst1N2R-sxfmeA4?download=1"
 ABA_BASE = 'Base_Dados'
 NOME_IMAGEM = 'mascote_pepo.png'
 PASTA_BACKUP = 'backup_envios'
@@ -18,10 +18,11 @@ PASTA_BACKUP = 'backup_envios'
 # Criar pasta de backup se não existir
 os.makedirs(PASTA_BACKUP, exist_ok=True)
 
-@st.cache_data(ttl=10)
+@st.cache_data(ttl=30)
 def carregar_dados():
-    if not os.path.exists(ARQUIVO_EXCEL):
-        return None
+    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
+    df.columns = df.columns.str.strip().str.lower()
+    return df
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
     df.columns = df.columns.str.strip().str.lower()
 
