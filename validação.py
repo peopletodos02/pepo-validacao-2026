@@ -45,7 +45,7 @@ if df_base is not None:
     except:
         st.write("🤖 **PEPO**")
 
-    st.title("Validação Pesquisa Pepo 2026")
+    st.title("Validação Pesquisa PEPO 2026")
     st.markdown("### Olá gestor, selecione seu nome e valide sua equipe:")
     st.divider()
 
