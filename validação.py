@@ -8,7 +8,7 @@ from datetime import datetime
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
 # 🔴 COLE SUA URL HTTP CORRETA AQUI
-WEBHOOK_URL = "COLE_AQUI_SUA_URL_HTTP_DO_POWER_AUTOMATE"
+WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
