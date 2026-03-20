@@ -66,7 +66,7 @@ if df_base is not None:
 
             def formatar_nome(row):
                 if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
-                    return f"{row['nome']} ✅"
+                    return f"{row['nome']} "
                 return f"{row['nome']} ❌"
 
             equipe['nome_formatado'] = equipe.apply(formatar_nome, axis=1)
