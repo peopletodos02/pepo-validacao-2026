@@ -1,13 +1,16 @@
 import streamlit as st
 import pandas as pd
+import requests
 import os
 from PIL import Image
 from datetime import datetime
 
-# Configuração da página (Conversa: PEPOResponseFlow)
+# PEPOResponseFlow
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# Nomes dos arquivos
+# COLE AQUI A URL QUE VOCÊ COPIOU DO POWER AUTOMATE
+WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/14f4e4ebe95f4087bdf0959d5768773c/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=kYIAOAN02o-YkhOdJOr_lhZNIsL8S-wjZdY5rtgssnE"
+
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 NOME_IMAGEM = 'mascote_pepo.png'
@@ -16,92 +19,67 @@ NOME_IMAGEM = 'mascote_pepo.png'
 def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL):
         return None
-    # Carrega a planilha e limpa os nomes das colunas
-    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE, engine='openpyxl')
+    df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
     df.columns = df.columns.str.strip().str.lower()
     return df
 
 df_base = carregar_dados()
 
 if df_base is not None:
-    # 1. EXIBIÇÃO DO MASCOTE (Ajustado para não dar erro)
+    # Mascote
     try:
         col_esq, col_meio, col_dir = st.columns([1, 2, 1])
-        with col_meio:
-            st.image(Image.open(NOME_IMAGEM), width=200)
-    except: 
-        st.write("🤖 **[Mascote PEPO]**")
+        with col_meio: st.image(Image.open(NOME_IMAGEM), width=200)
+    except: st.write("🤖 **PEPO**")
     
     st.title("Validação Pesquisa Pepo 2026")
-    
-    # 2. FRASE DE BOAS-VINDAS SOLICITADA
     st.markdown("### Olá gestor, por favor selecione o seu nome e confirme as informações abaixo:")
-
     st.divider()
 
-    # Identificando a coluna do Gestor (ajustada para minúsculo pelo código)
-    col_gestor_fada = 'gestor avaliador'
-    
-    if col_gestor_fada in df_base.columns:
-        gestores = sorted(df_base[col_gestor_fada].dropna().unique())
-        gestor_sel = st.selectbox("Selecione seu nome para listar sua equipe:", [""] + list(gestores))
+    col_gestor = 'gestor avaliador'
+    if col_gestor in df_base.columns:
+        gestores = sorted(df_base[col_gestor].dropna().unique())
+        gestor_sel = st.selectbox("Selecione seu nome:", [""] + list(gestores))
 
         if gestor_sel:
-            # Filtra os colaboradores do gestor selecionado
-            equipe = df_base[df_base[col_gestor_fada] == gestor_sel]
-            respostas_coletadas = []
+            equipe = df_base[df_base[col_gestor] == gestor_sel]
+            respostas_lote = []
 
-            st.subheader(f"Equipe sob validação de: {gestor_sel}")
-            
             for i, row in equipe.iterrows():
-                nome_func = row.get('nome', f"Colaborador {i}")
-                
-                with st.expander(f"👤 {nome_func}", expanded=True):
-                    st.write(f"**Cargo atual:** {row.get('cargo', 'N/A')} | **Unidade:** {row.get('unidade', 'N/A')}")
-                    
-                    # 3. PERGUNTAS DE CONFIRMAÇÃO
+                nome_f = row.get('nome', f"Colab {i}")
+                with st.expander(f"👤 {nome_f}", expanded=True):
                     c1, c2, c3, c4 = st.columns(4)
                     with c1: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
                     with c2: c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
                     with c3: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
                     with c4: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
-                    st.divider()
-                    
-                    # 4. SELEÇÃO DE PARES
                     lista_todos = sorted(df_base['nome'].unique())
-                    p1_col, p2_col = st.columns(2)
-                    with p1_col: p1 = st.selectbox(f"1º Par para {nome_func}:", [""] + lista_todos, key=f"p1_{i}")
-                    with p2_col: p2 = st.selectbox(f"2º Par para {nome_func}:", [""] + lista_todos, key=f"p2_{i}")
+                    p1 = st.selectbox(f"1º Par para {nome_f}:", [""] + lista_todos, key=f"p1_{i}")
+                    p2 = st.selectbox(f"2º Par para {nome_f}:", [""] + lista_todos, key=f"p2_{i}")
 
-                    respostas_coletadas.append({
-                        "Colaborador": nome_func,
-                        "Par 1": p1,
-                        "Par 2": p2,
-                        "Gestor OK": g_ok,
-                        "Cargo OK": c_ok,
-                        "Unidade OK": u_ok,
-                        "Depto OK": d_ok
+                    respostas_lote.append({
+                        "colaborador": nome_f,
+                        "p1": p1, "p2": p2,
+                        "status_gestor": g_ok, "status_cargo": c_ok,
+                        "status_unidade": u_ok, "status_depto": d_ok
                     })
 
-            st.divider()
-            obs_texto = st.text_area("Deseja deixar alguma observação geral sobre sua equipe?")
+            obs = st.text_area("Alguma observação?")
 
-            if st.button("🚀 Finalizar Validação", type="primary"):
-                # Como retiramos o e-mail, mostramos o sucesso e o resumo na tela
-                st.balloons()
-                st.success("✅ Validação concluída com sucesso!")
-                
-                # Exibe um resumo para o gestor ter certeza do que enviou
-                df_resumo = pd.DataFrame(respostas_coletadas)
-                st.write("### Resumo da sua validação:")
-                st.dataframe(df_resumo)
-                
-                if obs_texto:
-                    st.info(f"**Sua observação:** {obs_texto}")
-                
-                st.warning("⚠️ Prontinho! Os dados foram processados. Você já pode fechar esta aba.")
-    else:
-        st.error(f"Não encontrei a coluna '{col_gestor_fada}'. Verifique os títulos na aba Base_Dados.")
-else:
-    st.error("Erro: Não encontrei o arquivo 'base_pepo.xlsx'. Certifique-se de que ele foi enviado ao GitHub.")
+            if st.button("🚀 Finalizar e Salvar Dados", type="primary"):
+                payload = {
+                    "gestor_avaliador": gestor_sel,
+                    "observacoes": obs,
+                    "data_envio": datetime.now().strftime("%d/%m/%Y"),
+                    "lista_equipe": respostas_lote
+                }
+                try:
+                    res = requests.post(WEBHOOK_URL, json=payload)
+                    if res.status_code in [200, 202]:
+                        st.balloons()
+                        st.success("✅ Tudo pronto! Seus dados foram salvos com sucesso.")
+                    else:
+                        st.error("Erro ao enviar para o servidor.")
+                except Exception as e:
+                    st.error(f"Erro de conexão: {e}")
