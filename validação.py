@@ -162,7 +162,7 @@ if df_base is not None:
 
                             st.balloons()
                             st.success("✅ Dados enviados e salvos com sucesso!")
-                            st.info(f"📁 Backup salvo em: {arquivo_backup}")
+                           
 
                         else:
                             st.error(f"Erro {res.status_code}: {res.text}")
