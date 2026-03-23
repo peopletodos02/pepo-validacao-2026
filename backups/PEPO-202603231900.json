@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "VANUZA DOS SANTOS PRESTES",
+    "protocolo": "PEPO-202603231900",
+    "observacoes": "ojji",
+    "data_envio": "23/03/2026 19:00",
+    "lista_equipe": [
+        {
+            "colaborador": "RODNEY DUARTE DOS SANTOS",
+            "p1": "ALEX SILVA ESTEBANEZ",
+            "p2": "ALEX ALVARES PIMENTEL MACIEL",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Não",
+            "corr_cargo": "ANALISTA DE COMPRAS JR",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_depto": "Sim",
+            "corr_depto": ""
+        }
+    ]
+}
