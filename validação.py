@@ -7,15 +7,7 @@ import uuid
 import base64
 import json
 st.markdown("""
-    <style>
-    /* Cor do círculo e botões de seleção */
-    .st-emotion-cache-16idsys p { color: #31333F; }
-    input[type="radio"]:checked + div {
-        background-color: #009E80 !important;
-    }
-    div[data-baseweb="radio"] div {
-        border-color: #009E80 !important;
-    }
+
     /* Cor do botão de Enviar */
     button[kind="primary"] {
         background-color: #009E80 !important;
