@@ -4,22 +4,40 @@ import requests
 import os
 from datetime import datetime
 import uuid
+import json
+import base64
 
-# Configurações Iniciais
-st.set_page_config(page_title="PEPO 2026", layout="wide")
-
-# Webhook do Power Automate
+# --- CONFIGURAÇÕES ---
+GITHUB_TOKEN = "COLE_SEU_TOKEN_AQUI" 
+REPO_NAME = "peopletodos02/pepo-validacao-2026" 
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 
-# --- DESIGN: LOGOS CENTRALIZADAS ---
-c1, c2, c_logo, c_mascote, c5, c6 = st.columns([2, 1, 1.2, 0.8, 1, 2])
-with c_logo:
-    if os.path.exists("LOGO.png"): st.image("LOGO.png", width=180)
-with c_mascote:
-    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=65)
+st.set_page_config(page_title="PEPO 2026", layout="wide")
+
+# Função de Backup Permanente
+def salvar_backup_github(dados, protocolo):
+    try:
+        path = f"backups/{protocolo}.json"
+        url = f"https://api.github.com/repos/{REPO_NAME}/contents/{path}"
+        conteudo_json = json.dumps(dados, indent=4, ensure_ascii=False)
+        conteudo_base64 = base64.b64encode(conteudo_json.encode("utf-8")).decode("utf-8")
+        headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+        payload = {"message": f"Backup: {protocolo}", "content": conteudo_base64}
+        requests.put(url, json=payload, headers=headers)
+    except:
+        pass
+
+# --- LOGOS ---
+c_l1, c_l2, c_l3 = st.columns([1, 2, 1])
+with c_l2:
+    col_img1, col_img2 = st.columns([3, 1])
+    with col_img1:
+        if os.path.exists("LOGO.png"): st.image("LOGO.png", use_container_width=True)
+    with col_img2:
+        if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=70)
 
 @st.cache_data(ttl=60)
 def carregar_dados():
@@ -34,73 +52,71 @@ df_base = carregar_dados()
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='text-align: center; font-size: 18px; color: #555;'>
-    Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
-    Obrigada!
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown("---")
+    st.info("Olá Gestor, selecione seu nome e confirme os dados da sua equipe. Obrigado!")
 
-    col_gestor_ref = 'gestor avaliador' 
+    col_gestor_ref = 'gestor avaliador' # Coluna B
+    col_depto = 'unidade' # Coluna H
 
-    if col_gestor_ref in df_base.columns:
-        lista_gestores = sorted(df_base[col_gestor_ref].dropna().unique())
-        gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores)
+    gestores_lista = sorted(df_base[col_gestor_ref].dropna().unique())
+    gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + gestores_lista)
 
-        if gestor_sel:
-            # FILTRO CRUCIAL: Apenas a equipe direta do gestor selecionado
-            equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
-            
-            data_limite = pd.to_datetime('2026-01-31')
-            def selo(row):
-                if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
-                    return f"{row['nome']} "
-                return f"{row['nome']} ❌"
+    if gestor_sel:
+        equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
+        data_limite = pd.to_datetime('2026-01-31')
+        
+        def selo(row):
+            check = "✅" if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite else "❌"
+            return f"{row['nome']} {check}"
 
-            # Criamos a lista de pares baseada APENAS na equipe filtrada acima
-            equipe['display_par'] = equipe.apply(selo, axis=1)
-            opcoes_pares = [""] + sorted(equipe['display_par'].unique())
+        respostas_lote = []
+        erro_vazio = False
 
-            respostas_lote = []
-            erro_vazio = False
+        for i, row in equipe.iterrows():
+            nome_colab = row['nome']
+            depto_colab = row[col_depto]
 
-            for i, row in equipe.iterrows():
-                nome_colab = row['nome']
-                with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
-                    c_g, c_c, c_u, c_d = st.columns(4)
-                    with c_g: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
-                    with c_c: c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
-                    with c_u: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
-                    with c_d: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
+            with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
+                # LÓGICA DE PARES INTELIGENTE
+                pessoal_depto = df_base[df_base[col_depto] == depto_colab].copy()
+                pessoal_depto['display'] = pessoal_depto.apply(selo, axis=1)
+                lista_par_final = sorted(pessoal_depto['display'].unique())
 
-                    p1 = st.selectbox(f"1º Par para {nome_colab} *", opcoes_pares, key=f"p1_{i}")
-                    p2 = st.selectbox(f"2º Par para {nome_colab} *", opcoes_pares, key=f"p2_{i}")
+                # Se o departamento tiver 2 pessoas ou menos, adicionamos os gestores como opção
+                if len(lista_par_final) <= 2:
+                    gestores_obs = df_base[df_base['nome'].isin(gestores_lista)].copy()
+                    gestores_obs['display'] = gestores_obs.apply(selo, axis=1)
+                    lista_par_final += ["----------", "OPÇÕES DE GESTORES:"] + sorted(gestores_obs['display'].unique())
 
-                    if p1 == "" or p2 == "": erro_vazio = True
+                c1, c2, c3, c4 = st.columns(4)
+                with c1: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}")
+                with c2: c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}")
+                with c3: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}")
+                with c4: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}")
 
-                    respostas_lote.append({
-                        "colaborador": nome_colab, "p1": p1, "p2": p2,
-                        "status_gestor": g_ok, "status_cargo": c_ok,
-                        "status_unidade": u_ok, "status_depto": d_ok
-                    })
+                p1 = st.selectbox(f"1º Par para {nome_colab}", [""] + lista_par_final, key=f"p1_{i}")
+                p2 = st.selectbox(f"2º Par para {nome_colab}", [""] + lista_par_final, key=f"p2_{i}")
 
-            st.markdown("---")
-            campo_obs = st.text_area("Observações gerais ou indicação de par não descrito na lista (opcional)")
+                if p1 == "" or p2 == "" or "---" in str(p1): erro_vazio = True
+                respostas_lote.append({
+                    "colaborador": nome_colab, "p1": p1, "p2": p2,
+                    "status_gestor": g_ok, "status_cargo": c_ok,
+                    "status_unidade": u_ok, "status_depto": d_ok
+                })
 
-            if st.button("🚀 Enviar Validação Final", type="primary"):
-                if erro_vazio:
-                    st.error("⚠️ Por favor, selecione os pares de todos os colaboradores.")
-                else:
-                    id_protocolo = f"PEPO-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:4].upper()}"
-                    pacote = {
-                        "gestor_avaliador": gestor_sel, "protocolo": id_protocolo,
-                        "observacoes": campo_obs, "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
-                        "lista_equipe": respostas_lote
-                    }
-                    try:
-                        resp = requests.post(WEBHOOK_URL, json=pacote, timeout=20)
-                        if resp.status_code <= 202:
-                            st.balloons(); st.success(f"✅ Enviado! Protocolo: {id_protocolo}")
-                        else: st.error(f"Erro: {resp.status_code}")
-                    except Exception as e: st.error(f"Erro de conexão: {e}")
+        obs = st.text_area("Observações gerais ou indicação de par manual (opcional):")
+        
+        if st.button("🚀 Enviar Validação"):
+            if erro_vazio:
+                st.error("Preencha todos os pares corretamente.")
+            else:
+                protocolo = f"PEPO-{datetime.now().strftime('%Y%m%d%H%M')}-{str(uuid.uuid4())[:4].upper()}"
+                pacote = {
+                    "gestor_avaliador": gestor_sel, "protocolo": protocolo,
+                    "observacoes": obs, "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                    "lista_equipe": respostas_lote
+                }
+                # Salva Backup e Envia Webhook
+                salvar_backup_github(pacote, protocolo)
+                requests.post(WEBHOOK_URL, json=pacote)
+                st.success(f"Enviado! Protocolo: {protocolo}")
+                st.balloons()
