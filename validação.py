@@ -9,8 +9,8 @@ import json
 
 # --- CONFIGURAÇÕES DO GITHUB PARA BACKUP ---
 # Lembre-se de substituir pelos seus dados reais
-GITHUB_TOKEN = "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" 
-REPO_NAME = "peopletodos02/pepo-validacao-2026"
+GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
+REPO_NAME = st.secrets["REPO_NAME"]
 BRANCH = "main"
 
 # Configurações Iniciais
