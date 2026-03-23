@@ -35,14 +35,23 @@ df_base = carregar_dados()
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
+    
+    # --- SAUDAÇÃO DIDÁTICA ---
+    st.markdown("""
+    <div style='text-align: center; font-size: 18px; color: #555;'>
+    Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
+    Obrigada!
+    </div>
+    """, unsafe_allow_html=True)
+    
     st.markdown("---")
 
-    # Coluna B no Excel (Gestores que validam)
-    col_gestor_ref = 'gestor avaliador' 
-    col_setor = 'unidade' 
+    # Referência das Colunas
+    col_gestor_ref = 'gestor avaliador' # Coluna B no Excel
+    col_depto = 'unidade' # Coluna H no Excel (Departamento/Unidade)
 
     if col_gestor_ref in df_base.columns:
-        # Pega a lista de todos os gestores que constam na Coluna B
+        # Lista de Gestores (da coluna B) para o Selectbox inicial
         lista_gestores_b = sorted(df_base[col_gestor_ref].dropna().unique())
         gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_b)
 
@@ -57,25 +66,25 @@ if df_base is not None:
 
             respostas_lote = []
             erro_selecao = False
-            DIVISOR = "---------- OUTROS GESTORES ----------"
+            DIVISOR = "----------------------------------------"
 
             for i, row in equipe.iterrows():
                 nome_colab = row['nome']
-                setor_colab = row[col_setor]
+                depto_colab = row[col_depto] # Pega o depto da coluna H
 
                 with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
-                    # 1. Pessoas do MESMO SETOR (Obrigatoriamente primeiro)
-                    df_mesmo_setor = df_base[df_base[col_setor] == setor_colab].copy()
-                    df_mesmo_setor['display'] = df_mesmo_setor.apply(selo, axis=1)
-                    lista_setor = sorted(df_mesmo_setor['display'].unique())
+                    # 1. PESSOAS DO MESMO DEPARTAMENTO (Coluna H)
+                    df_mesmo_depto = df_base[df_base[col_depto] == depto_colab].copy()
+                    df_mesmo_depto['display'] = df_mesmo_depto.apply(selo, axis=1)
+                    lista_depto = sorted(df_mesmo_depto['display'].unique())
 
-                    # 2. Gestores da COLUNA B
+                    # 2. MESMOS NOMES DA SELEÇÃO DE GESTORES (Coluna B)
                     df_gestores = df_base[df_base['nome'].isin(lista_gestores_b)].copy()
                     df_gestores['display'] = df_gestores.apply(selo, axis=1)
                     lista_gestores_final = sorted(df_gestores['display'].unique())
 
-                    # Montagem da lista final organizada
-                    opcoes_pares = [""] + lista_setor + [DIVISOR] + lista_gestores_final
+                    # Montagem da Lista Organizada: Depto -> Divisor -> Gestores
+                    opcoes_pares = [""] + lista_depto + [DIVISOR] + lista_gestores_final
 
                     c_g, c_c, c_u, c_d = st.columns(4)
                     with c_g: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
@@ -86,7 +95,7 @@ if df_base is not None:
                     p1 = st.selectbox(f"1º Par para {nome_colab} *", opcoes_pares, key=f"p1_{i}")
                     p2 = st.selectbox(f"2º Par para {nome_colab} *", opcoes_pares, key=f"p2_{i}")
 
-                    # Validação de segurança: Não pode estar vazio e não pode ser a linha divisória
+                    # Bloqueio caso selecione o divisor ou deixe vazio
                     if p1 in ["", DIVISOR] or p2 in ["", DIVISOR]:
                         erro_selecao = True
 
@@ -105,7 +114,7 @@ if df_base is not None:
 
             if st.button("🚀 Enviar Validação Final", type="primary"):
                 if erro_selecao:
-                    st.error(f"⚠️ Erro: Selecione os dois pares corretamente. A linha '{DIVISOR}' não é válida.")
+                    st.error(f"⚠️ Por favor, selecione os pares. A linha '{DIVISOR}' não é uma opção válida.")
                 else:
                     id_protocolo = f"PEPO-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:4].upper()}"
                     pacote = {
@@ -119,9 +128,8 @@ if df_base is not None:
                             st.balloons()
                             st.success(f"✅ Enviado com Sucesso! Protocolo: {id_protocolo}")
                         else:
-                            st.error(f"Erro ao salvar: {resp.status_code}")
+                            st.error(f"Erro no servidor: {resp.status_code}")
                     except Exception as e:
                         st.error(f"Erro de conexão: {e}")
 else:
     st.error("Arquivo base_pepo.xlsx não encontrado.")
-
