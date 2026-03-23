@@ -14,17 +14,23 @@ WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 
-# --- TOPO: LOGOS CENTRALIZADAS E LADO A LADO ---
-col_esp_esq, col_central, col_esp_dir = st.columns([1, 3, 1])
+# --- EXIBIÇÃO DAS LOGOS CENTRALIZADAS E LADO A LADO ---
+col_logo, col_mascote = st.columns([2, 1]) 
 
-with col_central:
-    c1, c2 = st.columns([3, 1]) # Proporção 3 para a logo e 1 para o mascote
-    with c1:
-        if os.path.exists("LOGO.png"):
-            st.image("LOGO.png", use_container_width=True)
-    with c2:
-        if os.path.exists("mascote_pepo.png"):
-            st.image("mascote_pepo.png", width=100)
+with col_logo:
+    if os.path.exists("LOGO.png"):
+        # use_container_width=True faz o logo ocupar a largura da sua subcoluna
+        st.image("LOGO.png", width=250) # Diminuí o tamanho aqui
+
+with col_mascote:
+    if os.path.exists("mascote_pepo.png"):
+        # Definimos uma largura fixa menor para o mascote
+        st.image("mascote_pepo.png", width=80) # Deixei o mascote pequeno
+
+# Se nenhuma imagem carregar, mostra um título simples
+if not os.path.exists("LOGO.png") and not os.path.exists("mascote_pepo.png"):
+    st.markdown("<h1 style='text-align: center;'>🤖 PEPO 2026</h1>", unsafe_allow_html=True)
+# ----------------------------------------------------------------------
 
 @st.cache_data(ttl=60)
 def carregar_dados():
@@ -56,7 +62,7 @@ if df_base is not None:
             
             def formatar_nome_elegivel(row):
                 if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
-                    return f"{row['nome']} "
+                    return f"{row['nome']}"
                 return f"{row['nome']} ❌"
             
             # Lista Geral para seleção de pares (incluindo gestores)
