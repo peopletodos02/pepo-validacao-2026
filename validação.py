@@ -17,10 +17,12 @@ except:
 
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
+# URL DO WEBHOOK
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
 
+# Backup GitHub
 def salvar_backup_github(dados, protocolo):
     try:
         path = f"backups/{protocolo}.json"
@@ -37,11 +39,17 @@ def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL): return None
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
     df.columns = df.columns.str.strip().str.lower()
-    if 'data de admissão' in df.columns:
-        df['data de admissão'] = pd.to_datetime(df['data de admissão'], errors='coerce')
     return df
 
 df_base = carregar_dados()
+
+# --- DESIGN: LOGOS CENTRALIZADAS ---
+# (Certifique-se de que os nomes dos arquivos no GitHub são exatamente LOGO.png e mascote_pepo.png)
+c1, c2, c_logo, c_mascote, c5, c6 = st.columns([2, 1, 1.2, 0.8, 1, 2])
+with c_logo:
+    if os.path.exists("LOGO.png"): st.image("LOGO.png", width=180)
+with c_mascote:
+    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=65)
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação - PEPO 2026</h2>", unsafe_allow_html=True)
@@ -49,92 +57,85 @@ if df_base is not None:
     st.markdown("---")
 
     col_gestor_ref = 'gestor avaliador'
-    if col_gestor_ref in df_base.columns:
-        lista_gestores_full = sorted(df_base[col_gestor_ref].dropna().unique())
-        gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
+    lista_gestores_full = sorted(df_base[col_gestor_ref].dropna().unique())
+    gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
 
-        if gestor_sel:
-            # --- NOVA REGRA: TIPO DE AVALIAÇÃO DOS PARES ---
-            st.info("Configuração da Equipe:")
-            tipo_avaliacao = st.radio(
-                "A equipe será avaliada por pares do mesmo setor?",
-                ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
-            )
+    if gestor_sel:
+        # --- AJUSTE VISUAL: CONFIGURAÇÃO MAIOR E EM NEGRITO ---
+        st.markdown("<br><h3 style='font-weight: bold;'>Configuração da Equipe:</h3>", unsafe_allow_html=True)
+        tipo_avaliacao = st.radio(
+            "**A equipe será avaliada por pares do mesmo setor?**",
+            ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
+        )
+        st.markdown("---")
 
-            equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
-            data_limite = pd.to_datetime('2026-01-31')
-            
-            def selo(row):
-                check = "" if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite else "❌"
-                return f"{row['nome']} {check}".strip()
+        equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
+        
+        # Listas para as correções
+        all_cargos = sorted(df_base['cargo'].dropna().unique())
+        all_unidades = sorted(df_base['unidade'].dropna().unique())
+        all_deptos = sorted(df_base['departamento'].dropna().unique())
+        lista_nomes_full = sorted(df_base['nome'].dropna().unique())
 
-            # Opções de Listas (Geral vs Setor)
-            lista_nomes_full = sorted(df_base.apply(selo, axis=1).unique())
-            
-            respostas_lote = []
-            erro_vazio = False
-            erro_duplicado = False
+        respostas_lote = []
+        erro_vazio = False
+        erro_duplicado = False
 
-            # Listas para as correções (comboboxes)
-            all_cargos = sorted(df_base['cargo'].dropna().unique())
-            all_unidades = sorted(df_base['unidade'].dropna().unique())
-            all_deptos = sorted(df_base['departamento'].dropna().unique())
+        for i, row in equipe.iterrows():
+            nome_colab = row['nome']
+            with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
+                st.caption(f"Dados Atuais: {row['cargo']} | {row['unidade']} | {row['departamento']}")
+                
+                c1, c2, c3, c4 = st.columns(4)
+                with c1: 
+                    g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
+                    g_corr = st.selectbox("Novo Gestor:", [""] + lista_gestores_full, key=f"gc_{i}") if g_ok == "Não" else ""
+                with c2: 
+                    c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
+                    c_corr = st.selectbox("Novo Cargo:", [""] + all_cargos, key=f"cc_{i}") if c_ok == "Não" else ""
+                with c3: 
+                    u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
+                    u_corr = st.selectbox("Nova Unidade:", [""] + all_unidades, key=f"uc_{i}") if u_ok == "Não" else ""
+                with c4: 
+                    d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
+                    d_corr = st.selectbox("Novo Depto:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
 
-            for i, row in equipe.iterrows():
-                nome_colab = row['nome']
-                with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
-                    st.caption(f"Dados Atuais: {row['cargo']} | {row['unidade']} | {row['departamento']}")
-                    
-                    c1, c2, c3, c4 = st.columns(4)
-                    with c1: 
-                        g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
-                        g_corr = st.selectbox("Novo Gestor:", [""] + lista_gestores_full, key=f"gc_{i}") if g_ok == "Não" else ""
-                    with c2: 
-                        c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
-                        c_corr = st.selectbox("Novo Cargo:", [""] + all_cargos, key=f"cc_{i}") if c_ok == "Não" else ""
-                    with c3: 
-                        u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
-                        u_corr = st.selectbox("Nova Unidade:", [""] + all_unidades, key=f"uc_{i}") if u_ok == "Não" else ""
-                    with c4: 
-                        d_ok = st.radio("Departamento OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
-                        d_corr = st.selectbox("Novo Depto:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
-
-                    # --- LÓGICA DE PARES ATUALIZADA ---
-                    if tipo_avaliacao == "Sim":
-                        # Filtra apenas o depto do funcionário atual
-                        depto_atual = row['departamento']
-                        df_par = df_base[df_base['departamento'] == depto_atual].copy()
-                        op_pares = sorted(df_par.apply(selo, axis=1).unique())
-                        # Se setor for 1 pessoa, abre gestores
-                        if len(op_pares) <= 1:
-                            op_pares = op_pares + ["----------"] + lista_nomes_full
-                    else:
-                        op_pares = lista_nomes_full
-                    
-                    op_pares = [""] + op_pares
-
-                    p1 = st.selectbox(f"1º Par para {nome_colab} *", op_pares, key=f"p1_{i}")
-                    p2 = st.selectbox(f"2º Par para {nome_colab} *", op_pares, key=f"p2_{i}")
-
-                    if p1 == "" or p2 == "" or "---" in str(p1): erro_vazio = True
-                    if p1 != "" and p1 == p2: erro_duplicado = True
-
-                    respostas_lote.append({
-                        "colaborador": nome_colab, "p1": p1, "p2": p2,
-                        "st_gestor": g_ok, "corr_gestor": g_corr,
-                        "st_cargo": c_ok, "corr_cargo": c_corr,
-                        "st_unidade": u_ok, "corr_unidade": u_corr,
-                        "st_depto": d_ok, "corr_depto": d_corr
-                    })
-
-            campo_obs = st.text_area("Observações Gerais (opcional)")
-
-            if st.button("🚀 Enviar Validação Final", type="primary"):
-                if erro_vazio: st.error("⚠️ Preencha todos os pares.")
-                elif erro_duplicado: st.error("⚠️ O Par 1 e 2 devem ser diferentes.")
+                # Lógica de Pares
+                if tipo_avaliacao == "Sim":
+                    df_par = df_base[df_base['departamento'] == row['departamento']].copy()
+                    op_pares = sorted(df_par['nome'].unique())
+                    if len(op_pares) <= 1:
+                        op_pares = op_pares + ["----------"] + lista_nomes_full
                 else:
-                    id_p = f"PEPO-{datetime.now().strftime('%Y%m%d%H%M')}-{str(uuid.uuid4())[:4].upper()}"
-                    pacote = {"gestor": gestor_sel, "id": id_p, "obs": campo_obs, "data": datetime.now().strftime("%d/%m/%Y %H:%M"), "equipe": respostas_lote}
-                    salvar_backup_github(pacote, id_p)
-                    requests.post(WEBHOOK_URL, json=pacote)
-                    st.success(f"✅ Enviado! ID: {id_p}"); st.balloons()
+                    op_pares = lista_nomes_full
+                
+                op_pares = [""] + op_pares
+                p1 = st.selectbox(f"1º Par para {nome_colab} *", op_pares, key=f"p1_{i}")
+                p2 = st.selectbox(f"2º Par para {nome_colab} *", op_pares, key=f"p2_{i}")
+
+                if p1 == "" or p2 == "" or "---" in str(p1): erro_vazio = True
+                if p1 != "" and p1 == p2: erro_duplicado = True
+
+                respostas_lote.append({
+                    "colaborador": nome_colab, "p1": p1, "p2": p2,
+                    "status_gestor": g_ok, "corr_gestor": g_corr,
+                    "status_cargo": c_ok, "corr_cargo": c_corr,
+                    "status_unidade": u_ok, "corr_unidade": u_corr,
+                    "status_depto": d_ok, "corr_depto": d_corr
+                })
+
+        campo_obs = st.text_area("Observações Gerais (opcional)")
+
+        if st.button("🚀 Enviar Validação Final", type="primary"):
+            if erro_vazio: st.error("⚠️ Preencha todos os pares.")
+            elif erro_duplicado: st.error("⚠️ Par 1 e 2 devem ser diferentes.")
+            else:
+                id_p = f"PEPO-{datetime.now().strftime('%Y%m%d%H%M')}"
+                pacote = {
+                    "gestor_avaliador": gestor_sel, "protocolo": id_p, 
+                    "observacoes": campo_obs, "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"), 
+                    "lista_equipe": respostas_lote
+                }
+                salvar_backup_github(pacote, id_p)
+                requests.post(WEBHOOK_URL, json=pacote)
+                st.success(f"✅ Enviado! Protocolo: {id_p}"); st.balloons()
