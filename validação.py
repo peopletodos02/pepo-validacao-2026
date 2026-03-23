@@ -49,7 +49,7 @@ c1, c2, c_logo, c_mascote, c5, c6 = st.columns([2, 1, 1.2, 0.8, 1, 2])
 with c_logo:
     if os.path.exists("LOGO.png"): st.image("LOGO.png", width=180)
 with c_mascote:
-    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=65)
+    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=180)
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação - PEPO 2026</h2>", unsafe_allow_html=True)
