@@ -1,11 +1,11 @@
-importar streamlit as st
+import streamlit as st
 import pandas as pd
-solicitações de importação
-importar os
+import requests
+import os
 from datetime import datetime
-importar uuid
-importar base64
-importar json
+import uuid
+import base64
+import json
 
 # --- CONFIGURAÇÕES DE SEGURANÇA (VIA STREAMLIT SECRETS) ---
 #-se de que cadastrou verifique GITHUB_TOKEN e REPO_NAME nos Secrets do Streamlit
