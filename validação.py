@@ -6,15 +6,7 @@ from datetime import datetime, timedelta, timezone
 import uuid
 import base64
 import json
-st.markdown("""
 
-    /* Cor do botão de Enviar */
-    button[kind="primary"] {
-        background-color: #009E80 !important;
-        border-color: #009E80 !important;
-    }
-    </style>
-""", unsafe_allow_html=True)
 # --- CONFIGURAÇÕES DE SEGURANÇA ---
 try:
     GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
