@@ -71,7 +71,7 @@ if df_base is not None:
         
         # Filtro de Unidades solicitado:
         unidades_brutas = df_base['unidade'].dropna().unique()
-        remover_unidades = ["NÃO ATRIBUÍDO", "INCUBADORA DE FRANQUIAS", "PLANETA DE TODOS"]
+        remover_unidades = ["NÃO ATRIBUIDO", "INCUBADORA DE FRANQUIAS", "PLANETA DE TODOS"]
         all_unidades = sorted([u for u in unidades_brutas if str(u).strip().upper() not in remover_unidades])
         
         all_deptos = sorted(df_base['departamento'].dropna().unique())
