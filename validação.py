@@ -36,7 +36,6 @@ df_base = carregar_dados()
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
     
-    # --- SAUDAÇÃO DIDÁTICA ---
     st.markdown("""
     <div style='text-align: center; font-size: 18px; color: #555;'>
     Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
@@ -46,14 +45,12 @@ if df_base is not None:
     
     st.markdown("---")
 
-    # Referência das Colunas
-    col_gestor_ref = 'gestor avaliador' # Coluna B no Excel
-    col_depto = 'unidade' # Coluna H no Excel (Departamento/Unidade)
+    col_gestor_ref = 'gestor avaliador' # Coluna B
+    col_depto = 'unidade' # Coluna H
 
     if col_gestor_ref in df_base.columns:
-        # Lista de Gestores (da coluna B) para o Selectbox inicial
-        lista_gestores_b = sorted(df_base[col_gestor_ref].dropna().unique())
-        gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_b)
+        lista_gestores = sorted(df_base[col_gestor_ref].dropna().unique())
+        gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores)
 
         if gestor_sel:
             equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
@@ -65,26 +62,17 @@ if df_base is not None:
                 return f"{row['nome']} ❌"
 
             respostas_lote = []
-            erro_selecao = False
-            DIVISOR = "----------------------------------------"
+            erro_vazio = False
 
             for i, row in equipe.iterrows():
                 nome_colab = row['nome']
-                depto_colab = row[col_depto] # Pega o depto da coluna H
+                depto_colab = row[col_depto]
 
                 with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
-                    # 1. PESSOAS DO MESMO DEPARTAMENTO (Coluna H)
-                    df_mesmo_depto = df_base[df_base[col_depto] == depto_colab].copy()
-                    df_mesmo_depto['display'] = df_mesmo_depto.apply(selo, axis=1)
-                    lista_depto = sorted(df_mesmo_depto['display'].unique())
-
-                    # 2. MESMOS NOMES DA SELEÇÃO DE GESTORES (Coluna B)
-                    df_gestores = df_base[df_base['nome'].isin(lista_gestores_b)].copy()
-                    df_gestores['display'] = df_gestores.apply(selo, axis=1)
-                    lista_gestores_final = sorted(df_gestores['display'].unique())
-
-                    # Montagem da Lista Organizada: Depto -> Divisor -> Gestores
-                    opcoes_pares = [""] + lista_depto + [DIVISOR] + lista_gestores_final
+                    # FILTRO: Apenas pessoas do mesmo departamento (Coluna H)
+                    df_pares = df_base[df_base[col_depto] == depto_colab].copy()
+                    df_pares['display'] = df_pares.apply(selo, axis=1)
+                    opcoes_pares = [""] + sorted(df_pares['display'].unique())
 
                     c_g, c_c, c_u, c_d = st.columns(4)
                     with c_g: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
@@ -95,31 +83,29 @@ if df_base is not None:
                     p1 = st.selectbox(f"1º Par para {nome_colab} *", opcoes_pares, key=f"p1_{i}")
                     p2 = st.selectbox(f"2º Par para {nome_colab} *", opcoes_pares, key=f"p2_{i}")
 
-                    # Bloqueio caso selecione o divisor ou deixe vazio
-                    if p1 in ["", DIVISOR] or p2 in ["", DIVISOR]:
-                        erro_selecao = True
-
-                    # Fórmula Status (Sim/Não)
-                    status_f = "Sim" if ("✅" in p1 and "✅" in p2) else "Não"
+                    if p1 == "" or p2 == "": erro_vazio = True
 
                     respostas_lote.append({
                         "colaborador": nome_colab, "p1": p1, "p2": p2,
                         "status_gestor": g_ok, "status_cargo": c_ok,
-                        "status_unidade": u_ok, "status_depto": d_ok,
-                        "status_resposta": status_f
+                        "status_unidade": u_ok, "status_depto": d_ok
                     })
 
             st.markdown("---")
-            campo_obs = st.text_area("Observações Gerais (Opcional):")
+            # Texto de Observação atualizado conforme solicitado
+            label_obs = "Observações gerais ou indicação de par não descrito na lista (opcional)"
+            campo_obs = st.text_area(label_obs)
 
             if st.button("🚀 Enviar Validação Final", type="primary"):
-                if erro_selecao:
-                    st.error(f"⚠️ Por favor, selecione os pares. A linha '{DIVISOR}' não é uma opção válida.")
+                if erro_vazio:
+                    st.error("⚠️ Por favor, selecione os pares de todos os colaboradores.")
                 else:
                     id_protocolo = f"PEPO-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:4].upper()}"
                     pacote = {
-                        "gestor_avaliador": gestor_sel, "protocolo": id_protocolo,
-                        "observacoes": campo_obs, "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                        "gestor_avaliador": gestor_sel, 
+                        "protocolo": id_protocolo,
+                        "observacoes": campo_obs, 
+                        "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
                         "lista_equipe": respostas_lote
                     }
                     try:
