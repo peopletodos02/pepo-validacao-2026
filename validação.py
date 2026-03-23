@@ -54,7 +54,7 @@ def carregar_dados():
 df_base = carregar_dados()
 
 if df_base is not None:
-    st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>Validação Pesquisa PEPO 2026</h2>", unsafe_allow_html=True)
     st.markdown("""
     <div style='text-align: center; font-size: 18px; color: #555;'>
     Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
