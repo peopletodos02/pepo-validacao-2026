@@ -67,7 +67,6 @@ if df_base is not None:
 
     if gestor_sel:
         # --- CONFIGURAÇÃO DA EQUIPE (MAIOR E EM NEGRITO) ---
-        st.markdown("<br><h3 style='font-weight: bold;'></h3>", unsafe_allow_html=True)
         tipo_avaliacao = st.radio(
             "**A equipe será avaliada por pares do mesmo setor?**",
             ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
