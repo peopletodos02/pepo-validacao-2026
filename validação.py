@@ -1,14 +1,13 @@
-import streamlit as st
+importar streamlit como st
 import pandas as pd
-import requests
-import os
+solicitações de importação
+importar os
 from datetime import datetime
-import uuid
-import base64
-import json
+importar uuid
+importar base64
+importar json
 
 # --- CONFIGURAÇÕES DE SEGURANÇA (VIA STREAMLIT SECRETS) ---
-#-se de que cadastrou verifique GITHUB_TOKEN e REPO_NAME nos Secrets do Streamlit
 tentar:
     GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
     REPO_NAME = st.secrets["REPO_NAME"]
@@ -64,8 +63,9 @@ df_base = carregar_dados()
 se df_base não for None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
     
-    saudacao = "Olá Gestor, selecione abaixo seu nome e confirme os dados de sua equipe.<br>"
-    st.markdown(f"<div style='text-align: center; font-size: 18px; color: #555;'>{saudacao}</div>", unsafe_allow_html=True)
+    # Texto de saudação corrigido para evitar erro de aspas
+    saudacao_html = "<div style='text-align: center; font-size: 18px; color: #555;'>Olá Gestor, selecione abaixo o seu nome e confirme os dados de sua equipe.<br>Obrigada!</div>"
+    st.markdown(saudacao_html, unsafe_allow_html=True)
     
     st.markdown("---")
 
@@ -76,7 +76,7 @@ se df_base não for None:
         gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores)
 
         se gestor_sel:
-            # FILTRO: Apenas a equipe direta do gestor
+            # FILTRO: Apenas a equipe direta do gestor selecionado
             equipe = df_base[df_base[col_gestor_ref ] == gestor_sel].copy()
             data_limite = pd.to_datetime('2026-01-31')
             
@@ -85,13 +85,16 @@ se df_base não for None:
                     retornar f"{row['nome']} "
                 retornar f"{row['nome']} ❌"
 
-            # LÓGICA DE PARES: Se a equipe tiver apenas 1 pessoa, abra os gestores
+            # Lista base da equipe
             equipe['display_par'] = equipe.apply(selo, eixo=1)
-            opcoes_pares = sorted(equipe['display_par']. unique())
+            opcoes_da_equipe = sorted(equipe['display_par']. unique())
 
-            se len(opcoes_pares) <= 1:
+            # REGRA DOS PARES: Se uma equipe for de 1 pessoa, abra os gestores
+            if len(opcoes_da_equipe) <= 1:
                 opcoes_gestores = sorted(df_base[df_base['nome'] .isin(lista_gestores)].apply( selo, eixo=1).unique())
-                opcoes_pares = opcoes_pares + ["----------"] + opcoes_gestores
+                opcoes_pares = opcoes_da_equipe + ["----------"] + opcoes_gestores
+            outro:
+                opcoes_pares = opcoes_da_equipe
             
             opcoes_pares = [""] + opcoes_pares
 
@@ -123,9 +126,9 @@ se df_base não for None:
             campo_obs = st.text_area(label_obs)
 
             if st.button(" 🚀Enviar Validação Final", type="primary"):
-                # TRAVA 1: Campos Vazios
+                #TRAVA 1: Campos Vazios ou Divisória Selecionada
                 se erro_vazio:
-                    st.error(" ⚠️Por favor, selecione os pares de todos os colaboradores.")
+                    st.error(" ⚠️Por favor, selecione corretamente os pares de todos os colaboradores.")
                 
                 # TRAVA 2: Pares Idênticos para o mesmo colaborador
                 elif any(r['p1'] == r['p2'] for r in respostas_lote):
@@ -139,10 +142,10 @@ se df_base não for None:
                         "lista_equipe": respostas_lote
                     }
                     tentar:
-                        # Enviar backup para GitHub
+                        # Backup no GitHub
                         salvar_backup_github(pacote, id_protocolo)
                         
-                        # Enviar para o Power Automate
+                        # Envio ao Power Automate
                         resp = requests.post (WEBHOOK_URL, json=pacote, timeout=20)
                         
                         se resp.status_code <= 202:
