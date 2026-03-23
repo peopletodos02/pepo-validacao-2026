@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "THIAGO DA SILVA CHISNANDES",
+    "protocolo": "PEPO-202603231610",
+    "observacoes": "ojji",
+    "data_envio": "23/03/2026 16:10",
+    "lista_equipe": [
+        {
+            "colaborador": "ERIK HENRIQUE DIAS FERREIRA",
+            "p1": "ERIK HENRIQUE DIAS FERREIRA",
+            "p2": "LAIS GANDRA CARVALHO",
+            "status_gestor": "Não",
+            "corr_gestor": "ANDRESSA RODRIGUES MORATO MAIA",
+            "status_cargo": "Não",
+            "corr_cargo": "ANALISTA CONTÁBIL FINANCEIRO (M.I)",
+            "status_unidade": "Não",
+            "corr_unidade": "TODOS EMPREENDIMENTOS",
+            "status_depto": "Não",
+            "corr_depto": "25 - CRM - DEV"
+        },
+        {
+            "colaborador": "GABRIEL HENRIQUE GOMES CALAZANS",
+            "p1": "ERIK HENRIQUE DIAS FERREIRA",
+            "p2": "GABRIEL HENRIQUE GOMES CALAZANS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_depto": "Sim",
+            "corr_depto": ""
+        },
+        {
+            "colaborador": "LAIS GANDRA CARVALHO",
+            "p1": "ERIK HENRIQUE DIAS FERREIRA",
+            "p2": "LAIS GANDRA CARVALHO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_depto": "Sim",
+            "corr_depto": ""
+        }
+    ]
+}
