@@ -43,7 +43,7 @@ c1, c2, c_logo, c_mascote, c5, c6 = st.columns([2, 1, 1.2, 0.8, 1, 2])
 with c_logo:
     if os.path.exists("LOGO.png"): st.image("LOGO.png", width=180)
 with c_mascote:
-    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=150)
+    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=180)
 
 @st.cache_data(ttl=60)
 def carregar_dados():
