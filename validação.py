@@ -1,4 +1,4 @@
-importar streamlit como st
+importar streamlit as st
 import pandas as pd
 solicitações de importação
 importar os
