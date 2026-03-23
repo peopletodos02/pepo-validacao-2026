@@ -58,7 +58,6 @@ if df_base is not None:
     st.markdown("""
     <div style='text-align: center; font-size: 18px; color: #555;'>
     Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
-    Obrigada!
     </div>
     """, unsafe_allow_html=True)
     st.markdown("---")
