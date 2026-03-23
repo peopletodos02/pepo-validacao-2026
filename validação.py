@@ -9,7 +9,7 @@ import json
 
 # --- CONFIGURAÇÕES DO GITHUB PARA BACKUP ---
 # Lembre-se de substituir pelos seus dados reais
-GITHUB_TOKEN = "peopletodos02" 
+GITHUB_TOKEN = "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" 
 REPO_NAME = "peopletodos02/pepo-validacao-2026"
 BRANCH = "main"
 
@@ -136,4 +136,3 @@ if df_base is not None:
                             st.balloons(); st.success(f"✅ Enviado! Protocolo: {id_protocolo}")
                         else: st.error(f"Erro: {resp.status_code}")
                     except Exception as e: st.error(f"Erro de conexão: {e}")
-
