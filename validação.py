@@ -113,7 +113,7 @@ if df_base is not None:
                     })
 
             st.markdown("---")
-            campo_obs = st.text_area("Observações gerais ou indicação de par não descrito na lista (opcional)")
+            campo_obs = st.text_area("Observações Gerais (opcional)")
 
             if st.button("🚀 Enviar Validação Final", type="primary"):
                 if erro_vazio:
