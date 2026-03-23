@@ -7,8 +7,7 @@ import uuid
 import base64
 import json
 
-# --- CONFIGURAÇÕES DO GITHUB PARA BACKUP ---
-# As variáveis abaixo buscam os dados que você salvou nos Secrets do Streamlit
+# --- CONFIGURAÇÕES DE SEGURANÇA (VIA STREAMLIT SECRETS) ---
 try:
     GITHUB_TOKEN = st.secrets["GITHUB_TOKEN"]
     REPO_NAME = st.secrets["REPO_NAME"]
@@ -43,7 +42,7 @@ c1, c2, c_logo, c_mascote, c5, c6 = st.columns([2, 1, 1.2, 0.8, 1, 2])
 with c_logo:
     if os.path.exists("LOGO.png"): st.image("LOGO.png", width=180)
 with c_mascote:
-    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=180)
+    if os.path.exists("mascote_pepo.png"): st.image("mascote_pepo.png", width=65)
 
 @st.cache_data(ttl=60)
 def carregar_dados():
@@ -58,11 +57,7 @@ df_base = carregar_dados()
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação - PEPO 2026</h2>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='text-align: center; font-size: 18px; color: #555;'>
-    Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; font-size: 18px; color: #555;'>Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.</div>", unsafe_allow_html=True)
     st.markdown("---")
 
     col_gestor_ref = 'gestor avaliador'
@@ -83,7 +78,6 @@ if df_base is not None:
             equipe['display_par'] = equipe.apply(selo, axis=1)
             opcoes_da_equipe = sorted(equipe['display_par'].unique())
 
-            # REGRA: Se só tiver 1 pessoa no setor, adiciona os gestores avaliadores na lista
             if len(opcoes_da_equipe) <= 1:
                 opcoes_gestores = sorted(df_base[df_base['nome'].isin(lista_gestores)].apply(selo, axis=1).unique())
                 opcoes_pares = opcoes_da_equipe + ["----------"] + opcoes_gestores
@@ -98,21 +92,33 @@ if df_base is not None:
 
             for i, row in equipe.iterrows():
                 nome_colab = row['nome']
+                cargo_colab = row.get('cargo', 'Não informado')
+                unidade_colab = row.get('unidade', 'Não informado')
+                depto_colab = row.get('departamento', 'Não informado') # Ajuste o nome da coluna se for diferente
+
                 with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
+                    # --- EXIBIÇÃO DOS DADOS ATUAIS ---
+                    st.markdown(f"**Dados cadastrados:**")
+                    info1, info2, info3 = st.columns(3)
+                    info1.caption(f"💼 Cargo: {cargo_colab}")
+                    info2.caption(f"🏢 Unidade: {unidade_colab}")
+                    info3.caption(f"📁 Depto: {depto_colab}")
+                    
+                    st.write("") # Espaço
+
+                    # --- PERGUNTAS DE VALIDAÇÃO ---
                     c_g, c_c, c_u, c_d = st.columns(4)
                     with c_g: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
                     with c_c: c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
                     with c_u: u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
-                    with c_d: d_ok = st.radio("Departamento OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
+                    with c_d: d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
 
                     p1 = st.selectbox(f"1º Par para {nome_colab} *", opcoes_pares, key=f"p1_{i}")
                     p2 = st.selectbox(f"2º Par para {nome_colab} *", opcoes_pares, key=f"p2_{i}")
 
-                    # Validação de preenchimento
                     if p1 == "" or p2 == "" or "---" in str(p1): 
                         erro_vazio = True
                     
-                    # NOVA REGRA: Verifica se Par 1 e Par 2 são iguais para o mesmo funcionário
                     if p1 != "" and p1 == p2:
                         erro_duplicado = True
 
