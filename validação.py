@@ -104,7 +104,7 @@ if df_base is not None:
                     u_corr = st.selectbox("Nova Unidade:", [""] + all_unidades, key=f"uc_{i}") if u_ok == "Não" else ""
                 with c4: 
                     d_ok = st.radio("Depto OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
-                    d_corr = st.selectbox("Novo Depto:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
+                    d_corr = st.selectbox("Novo Departamento:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
 
                 if tipo_avaliacao == "Sim":
                     df_par = df_base[df_base['departamento'] == row['departamento']].copy()
