@@ -4,12 +4,11 @@ import requests
 import os
 from datetime import datetime
 import uuid
-import json
 
 # Configurações Iniciais
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
-# URL do Webhook do Power Automate
+# Webhook do Power Automate
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
@@ -35,45 +34,40 @@ df_base = carregar_dados()
 
 if df_base is not None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
-    
     st.markdown("""
     <div style='text-align: center; font-size: 18px; color: #555;'>
     Olá Gestor, selecione abaixo o seu nome e confirme os dados da sua equipe.<br>
     Obrigada!
     </div>
     """, unsafe_allow_html=True)
-    
     st.markdown("---")
 
-    col_gestor_ref = 'gestor avaliador' # Coluna B
-    col_depto = 'unidade' # Coluna H
+    col_gestor_ref = 'gestor avaliador' 
 
     if col_gestor_ref in df_base.columns:
         lista_gestores = sorted(df_base[col_gestor_ref].dropna().unique())
         gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores)
 
         if gestor_sel:
+            # FILTRO CRUCIAL: Apenas a equipe direta do gestor selecionado
             equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
-            data_limite = pd.to_datetime('2026-01-31')
             
+            data_limite = pd.to_datetime('2026-01-31')
             def selo(row):
                 if pd.notnull(row['data de admissão']) and row['data de admissão'] <= data_limite:
                     return f"{row['nome']} "
                 return f"{row['nome']} ❌"
+
+            # Criamos a lista de pares baseada APENAS na equipe filtrada acima
+            equipe['display_par'] = equipe.apply(selo, axis=1)
+            opcoes_pares = [""] + sorted(equipe['display_par'].unique())
 
             respostas_lote = []
             erro_vazio = False
 
             for i, row in equipe.iterrows():
                 nome_colab = row['nome']
-                depto_colab = row[col_depto]
-
                 with st.expander(f"👤 Validar: {nome_colab}", expanded=True):
-                    # FILTRO: Apenas pessoas do mesmo departamento (Coluna H)
-                    df_pares = df_base[df_base[col_depto] == depto_colab].copy()
-                    df_pares['display'] = df_pares.apply(selo, axis=1)
-                    opcoes_pares = [""] + sorted(df_pares['display'].unique())
-
                     c_g, c_c, c_u, c_d = st.columns(4)
                     with c_g: g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
                     with c_c: c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
@@ -92,9 +86,7 @@ if df_base is not None:
                     })
 
             st.markdown("---")
-            # Texto de Observação atualizado conforme solicitado
-            label_obs = "Observações gerais ou indicação de par não descrito na lista (opcional)"
-            campo_obs = st.text_area(label_obs)
+            campo_obs = st.text_area("Observações gerais ou indicação de par não descrito na lista (opcional)")
 
             if st.button("🚀 Enviar Validação Final", type="primary"):
                 if erro_vazio:
@@ -102,20 +94,13 @@ if df_base is not None:
                 else:
                     id_protocolo = f"PEPO-{datetime.now().strftime('%Y%m%d')}-{str(uuid.uuid4())[:4].upper()}"
                     pacote = {
-                        "gestor_avaliador": gestor_sel, 
-                        "protocolo": id_protocolo,
-                        "observacoes": campo_obs, 
-                        "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
+                        "gestor_avaliador": gestor_sel, "protocolo": id_protocolo,
+                        "observacoes": campo_obs, "data_envio": datetime.now().strftime("%d/%m/%Y %H:%M"),
                         "lista_equipe": respostas_lote
                     }
                     try:
                         resp = requests.post(WEBHOOK_URL, json=pacote, timeout=20)
                         if resp.status_code <= 202:
-                            st.balloons()
-                            st.success(f"✅ Enviado com Sucesso! Protocolo: {id_protocolo}")
-                        else:
-                            st.error(f"Erro no servidor: {resp.status_code}")
-                    except Exception as e:
-                        st.error(f"Erro de conexão: {e}")
-else:
-    st.error("Arquivo base_pepo.xlsx não encontrado.")
+                            st.balloons(); st.success(f"✅ Enviado! Protocolo: {id_protocolo}")
+                        else: st.error(f"Erro: {resp.status_code}")
+                    except Exception as e: st.error(f"Erro de conexão: {e}")
