@@ -63,12 +63,10 @@ df_base = carregar_dados()
 
 se df_base não for None:
     st.markdown("<h2 style='text-align: center;'>Validação Pesquisa Pepo 2026</h2>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style='text-align: center; font-size: 18px; color: #555;'>
-    Olá Gestor, selecione abaixo seu nome e confirme os dados de sua equipe.<br>
-    Obrigada!
-    </div>
-    "", unsafe_allow_html=True)
+    
+    saudacao = "Olá Gestor, selecione abaixo seu nome e confirme os dados de sua equipe.<br>"
+    st.markdown(f"<div style='text-align: center; font-size: 18px; color: #555;'>{saudacao}</div>", unsafe_allow_html=True)
+    
     st.markdown("---")
 
     col_gestor_ref = 'gestor avaliador' 
