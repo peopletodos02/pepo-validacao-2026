@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "AMANDA MIRANDA DE CARVALHO",
+    "protocolo": "PEPO-202603251720",
+    "observacoes": "OK",
+    "data_envio": "25/03/2026 17:20",
+    "lista_equipe": [
+        {
+            "colaborador": "BARBARA CRYSTE GRACIANO FONTES",
+            "p1": "RHAYANDER DANTAS DOS REIS",
+            "p2": "YURI LOPES CORDEIRO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_depto": ""
+        },
+        {
+            "colaborador": "RHAYANDER DANTAS DOS REIS",
+            "p1": "YURI LOPES CORDEIRO",
+            "p2": "BARBARA CRYSTE GRACIANO FONTES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_depto": ""
+        },
+        {
+            "colaborador": "YURI LOPES CORDEIRO",
+            "p1": "BARBARA CRYSTE GRACIANO FONTES",
+            "p2": "RHAYANDER DANTAS DOS REIS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_depto": ""
+        }
+    ]
+}
