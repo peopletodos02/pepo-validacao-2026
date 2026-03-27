@@ -1,0 +1,34 @@
+{
+    "gestor_avaliador": "VANUZA DOS SANTOS PRESTES",
+    "protocolo": "PEPO-202603270903",
+    "observacoes": "234",
+    "data_envio": "27/03/2026 09:03",
+    "lista_equipe": [
+        {
+            "colaborador": "RAFAELA MOTA MEIRELES DO NASCIMENTO",
+            "p1": "NADABY HAUANE DOURADO DE OLIVEIRA",
+            "p2": "TAMARA FERNANDA DE AZEVEDO BARBOSA",
+            "status_gestor": "Não",
+            "corr_gestor": "ALEX ALVARES PIMENTEL MACIEL",
+            "status_cargo": "Não",
+            "corr_cargo": "ANALISTA CONTÁBIL JR",
+            "status_unidade": "Não",
+            "corr_unidade": "REGIONAIS",
+            "status_departamento": "Não",
+            "corr_depto": "25 - CRM - CX"
+        },
+        {
+            "colaborador": "RODNEY DUARTE DOS SANTOS",
+            "p1": "ADALBERTO MARTINS DE ARQUISA",
+            "p2": "ALEX ALVARES PIMENTEL MACIEL",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_depto": ""
+        }
+    ]
+}
