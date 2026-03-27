@@ -57,10 +57,8 @@ if df_base is not None:
     lista_gestores_full = sorted(df_base[col_gestor_ref].dropna().unique())
     gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
 
-    if gestor_sel:
-        tipo_avaliacao = st.radio(
-            "**ATENÇÃO: Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor.**",
-
+           tipo_avaliacao = st.radio(
+            "**ATENÇÃO:** Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor. \n\n **A equipe será avaliada por pares do mesmo setor?**",
             ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
         )
         st.markdown("---")
