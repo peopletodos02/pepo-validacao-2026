@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "ANDRE NADDEO",
+    "protocolo": "PEPO-202603271546",
+    "observacoes": "",
+    "data_envio": "27/03/2026 15:46",
+    "lista_equipe": [
+        {
+            "colaborador": "AMANDA RIBEIRO JARDIM OLIVEIRA DE SOUZA",
+            "p1": "AMANDA RIBEIRO JARDIM OLIVEIRA DE SOUZA",
+            "p2": "ANDRE NADDEO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Não",
+            "corr_cargo": "ANALISTA ADMINISTRATIVO FINANCEIRO JR",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Não",
+            "corr_departamento": "TI - CHECKOUT"
+        }
+    ]
+}
