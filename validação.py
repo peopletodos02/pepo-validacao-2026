@@ -70,9 +70,7 @@ if df_base is not None:
         all_cargos = sorted(df_base['cargo'].dropna().unique())
         
         # Filtro de Unidades solicitado:
-        unidades_brutas = df_base['unidade'].dropna().unique()
-        remover_unidades = ["NÃO ATRIBUIDO", "INCUBADORA DE FRANQUIAS", "PLANETA DE TODOS"]
-        all_unidades = sorted([u for u in unidades_brutas if str(u).strip().upper() not in remover_unidades])
+        all_unidades = sorted(df_base['unidade'].dropna().unique())
         
         all_deptos = sorted(df_base['departamento'].dropna().unique())
         lista_nomes_full = sorted(df_base['nome'].dropna().unique())
