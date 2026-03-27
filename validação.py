@@ -57,21 +57,23 @@ if df_base is not None:
     lista_gestores_full = sorted(df_base[col_gestor_ref].dropna().unique())
     gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
 
-         if gestor_sel:
-        # Pressione a tecla Backspace até colar no 'if' e depois dê 1 TAB (ou 4 espaços)
+    if gestor_sel:
         tipo_avaliacao = st.radio(
-            "**ATENÇÃO:** Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor. \n\n **A equipe será avaliada por pares do mesmo setor?**",
+            "**A equipe será avaliada por pares do mesmo setor?**",
             ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
         )
+        st.markdown("---")
 
         equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
-        
+       
         # --- LISTAS GLOBAIS COM FILTROS ---
         all_cargos = sorted(df_base['cargo'].dropna().unique())
-        
+       
         # Filtro de Unidades solicitado:
-        all_unidades = sorted(df_base['unidade'].dropna().unique())
-        
+        unidades_brutas = df_base['unidade'].dropna().unique()
+        remover_unidades = ["NÃO ATRIBUIDO", "INCUBADORA DE FRANQUIAS", "PLANETA DE TODOS"]
+        all_unidades = sorted([u for u in unidades_brutas if str(u).strip().upper() not in remover_unidades])
+       
         all_deptos = sorted(df_base['departamento'].dropna().unique())
         lista_nomes_full = sorted(df_base['nome'].dropna().unique())
 
@@ -87,20 +89,20 @@ if df_base is not None:
                 info1.caption(f"💼 Cargo: {row['cargo']}")
                 info2.caption(f"🏢 Unidade: {row['unidade']}")
                 info3.caption(f"📁 Departamento: {row['departamento']}")
-                
+               
                 st.write("")
 
                 c1, c2, c3, c4 = st.columns(4)
-                with c1: 
+                with c1:
                     g_ok = st.radio("Gestor OK?", ["Sim", "Não"], key=f"g_{i}", horizontal=True)
                     g_corr = st.selectbox("Novo Gestor:", [""] + lista_gestores_full, key=f"gc_{i}") if g_ok == "Não" else ""
-                with c2: 
+                with c2:
                     c_ok = st.radio("Cargo OK?", ["Sim", "Não"], key=f"c_{i}", horizontal=True)
                     c_corr = st.selectbox("Novo Cargo:", [""] + all_cargos, key=f"cc_{i}") if c_ok == "Não" else ""
-                with c3: 
+                with c3:
                     u_ok = st.radio("Unidade OK?", ["Sim", "Não"], key=f"u_{i}", horizontal=True)
                     u_corr = st.selectbox("Nova Unidade:", [""] + all_unidades, key=f"uc_{i}") if u_ok == "Não" else ""
-                with c4: 
+                with c4:
                     d_ok = st.radio("Departamento OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
                     d_corr = st.selectbox("Novo Departamento:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
 
@@ -109,7 +111,7 @@ if df_base is not None:
                     op_pares = sorted(df_par['nome'].unique())
                     if len(op_pares) <= 1: op_pares = op_pares + ["----------"] + lista_nomes_full
                 else: op_pares = lista_nomes_full
-                
+               
                 op_pares = [""] + op_pares
                 p1 = st.selectbox(f"1º Par para {nome_colab} *", op_pares, key=f"p1_{i}")
                 p2 = st.selectbox(f"2º Par para {nome_colab} *", op_pares, key=f"p2_{i}")
@@ -135,8 +137,8 @@ if df_base is not None:
                 agora_br = datetime.now(fuso_br)
                 id_p = f"PEPO-{agora_br.strftime('%Y%m%d%H%M')}"
                 pacote = {
-                    "gestor_avaliador": gestor_sel, "protocolo": id_p, 
-                    "observacoes": campo_obs, "data_envio": agora_br.strftime("%d/%m/%Y %H:%M"), 
+                    "gestor_avaliador": gestor_sel, "protocolo": id_p,
+                    "observacoes": campo_obs, "data_envio": agora_br.strftime("%d/%m/%Y %H:%M"),
                     "lista_equipe": respostas_lote
                 }
                 salvar_backup_github(pacote, id_p)
