@@ -59,7 +59,7 @@ if df_base is not None:
 
     if gestor_sel:
         tipo_avaliacao = st.radio(
-            "**ATENÇÃO: Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor. A equipe será avaliada por pares do mesmo setor?**",
+            "**ATENÇÃO: Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor. \n\n **A equipe será avaliada por pares do mesmo setor?**",
             ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
         )
         st.markdown("---")
