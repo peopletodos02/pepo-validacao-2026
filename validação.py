@@ -74,7 +74,6 @@ if df_base is not None:
 
     if gestor_sel:
         # --- BLOCO DE ATENÇÃO COM TAMANHO MAIOR ---
-        st.markdown("###### **ATENÇÃO:**")
         st.markdown("###### **ATENÇÃO:** Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor.")
         
         tipo_avaliacao = st.radio(
