@@ -17,6 +17,21 @@ except:
 
 st.set_page_config(page_title="PEPO 2026", layout="wide")
 
+# --- ESTILO VISUAL PEPO (VERDE #009E80) ---
+st.markdown("""
+    <style>
+    /* Cor primária nos botões e rádio */
+    div[data-baseweb="radio"] div[role="presentation"] {
+        background-color: #009E80 !important;
+        border-color: #009E80 !important;
+    }
+    button[kind="primary"] {
+        background-color: #009E80 !important;
+        border-color: #009E80 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 WEBHOOK_URL = "https://defaulte93279240f9745ba871f4a124f3343.19.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/dd8f08aa19674bb3951643917c0b69df/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=npw2e02HKff8Zew6sizpxu1EzwGu2U0TPkU7ef_IWo0"
 ARQUIVO_EXCEL = 'base_pepo.xlsx'
 ABA_BASE = 'Base_Dados'
@@ -36,7 +51,7 @@ def salvar_backup_github(dados, protocolo):
 def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL): return None
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
-    df.columns = df.columns.str.strip().str.lower()
+    df.columns = [c.lower().strip() for c in df.columns]
     return df
 
 df_base = carregar_dados()
@@ -57,28 +72,21 @@ if df_base is not None:
     lista_gestores_full = sorted(df_base[col_gestor_ref].dropna().unique())
     gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
 
-if gestor_sel:
-    # Texto grande e formatado fora do radio para não dar erro
-    st.markdown("### **ATENÇÃO:**")
-    st.markdown("#### Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor.")
+    if gestor_sel:
+        # --- BLOCO DE ATENÇÃO COM TAMANHO MAIOR ---
+        st.markdown("### **ATENÇÃO:**")
+        st.markdown("#### Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor.")
         
-    # O rádio fica apenas com a pergunta final
-    tipo_avaliacao = st.radio(
-    "**A equipe será avaliada por pares do mesmo setor?**",
-     ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
+        tipo_avaliacao = st.radio(
+            "**A equipe será avaliada por pares do mesmo setor?**",
+            ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
         )
-    st.markdown("---")
+        st.markdown("---")
 
         equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
-       
-        # --- LISTAS GLOBAIS COM FILTROS ---
+        
         all_cargos = sorted(df_base['cargo'].dropna().unique())
-       
-        # Filtro de Unidades solicitado:
-        unidades_brutas = df_base['unidade'].dropna().unique()
-        remover_unidades = ["NÃO ATRIBUIDO", "INCUBADORA DE FRANQUIAS", "PLANETA DE TODOS"]
-        all_unidades = sorted([u for u in unidades_brutas if str(u).strip().upper() not in remover_unidades])
-       
+        all_unidades = sorted([str(u).strip().upper() for u in df_base['unidade'].dropna().unique()])
         all_deptos = sorted(df_base['departamento'].dropna().unique())
         lista_nomes_full = sorted(df_base['nome'].dropna().unique())
 
@@ -94,7 +102,7 @@ if gestor_sel:
                 info1.caption(f"💼 Cargo: {row['cargo']}")
                 info2.caption(f"🏢 Unidade: {row['unidade']}")
                 info3.caption(f"📁 Departamento: {row['departamento']}")
-               
+                
                 st.write("")
 
                 c1, c2, c3, c4 = st.columns(4)
@@ -116,7 +124,7 @@ if gestor_sel:
                     op_pares = sorted(df_par['nome'].unique())
                     if len(op_pares) <= 1: op_pares = op_pares + ["----------"] + lista_nomes_full
                 else: op_pares = lista_nomes_full
-               
+                
                 op_pares = [""] + op_pares
                 p1 = st.selectbox(f"1º Par para {nome_colab} *", op_pares, key=f"p1_{i}")
                 p2 = st.selectbox(f"2º Par para {nome_colab} *", op_pares, key=f"p2_{i}")
@@ -129,7 +137,7 @@ if gestor_sel:
                     "status_gestor": g_ok, "corr_gestor": g_corr,
                     "status_cargo": c_ok, "corr_cargo": c_corr,
                     "status_unidade": u_ok, "corr_unidade": u_corr,
-                    "status_departamento": d_ok, "corr_depto": d_corr
+                    "status_departamento": d_ok, "corr_departamento": d_corr
                 })
 
         campo_obs = st.text_area("Observações Gerais (opcional)")
