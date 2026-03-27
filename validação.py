@@ -141,7 +141,7 @@ if df_base is not None:
 
         campo_obs = st.text_area("Observações Gerais (opcional)")
 
-        if st.button("🚀 Enviar Validação Final", type="primary"):
+        if st.button("Enviar Validação", type="primary"):
             if erro_vazio: st.error("⚠️ Selecione os pares de todos os colaboradores.")
             elif erro_duplicado: st.error("⚠️ Par 1 e Par 2 não podem ser a mesma pessoa.")
             else:
