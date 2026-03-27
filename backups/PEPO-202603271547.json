@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "VANUZA DOS SANTOS PRESTES",
+    "protocolo": "PEPO-202603271547",
+    "observacoes": "",
+    "data_envio": "27/03/2026 15:47",
+    "lista_equipe": [
+        {
+            "colaborador": "RODNEY DUARTE DOS SANTOS",
+            "p1": "ALINE DE GOES CAMARGO",
+            "p2": "ALINE BASSO DE AZEVEDO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Não",
+            "corr_unidade": "TODOS INCORPORAÇÕES",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
