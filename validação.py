@@ -67,7 +67,7 @@ if gestor_sel:
     "**A equipe será avaliada por pares do mesmo setor?**",
      ["Sim", "Não"], index=0, horizontal=True, key="tipo_av"
         )
-        st.markdown("---")
+     st.markdown("---")
 
         equipe = df_base[df_base[col_gestor_ref] == gestor_sel].copy()
        
