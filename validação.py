@@ -47,7 +47,7 @@ def salvar_backup_github(dados, protocolo):
         requests.put(url, json=payload, headers=headers)
     except: pass
 
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=3600)
 def carregar_dados():
     if not os.path.exists(ARQUIVO_EXCEL): return None
     df = pd.read_excel(ARQUIVO_EXCEL, sheet_name=ABA_BASE)
