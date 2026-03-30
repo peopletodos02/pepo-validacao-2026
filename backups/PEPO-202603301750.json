@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "THIAGO DA SILVA CHISNANDES",
+    "protocolo": "PEPO-202603301750",
+    "observacoes": "",
+    "data_envio": "30/03/2026 17:50",
+    "lista_equipe": [
+        {
+            "colaborador": "ERIK HENRIQUE DIAS FERREIRA",
+            "p1": "GABRIEL HENRIQUE GOMES CALAZANS",
+            "p2": "LAIS GANDRA CARVALHO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LAIS GANDRA CARVALHO",
+            "p1": "ERIK HENRIQUE DIAS FERREIRA",
+            "p2": "GABRIEL HENRIQUE GOMES CALAZANS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "GABRIEL HENRIQUE GOMES CALAZANS",
+            "p1": "LAIS GANDRA CARVALHO",
+            "p2": "ERIK HENRIQUE DIAS FERREIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
