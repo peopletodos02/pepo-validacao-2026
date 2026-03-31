@@ -1,0 +1,60 @@
+{
+    "gestor_avaliador": "ALINE DE GOES CAMARGO",
+    "protocolo": "PEPO-202603311214",
+    "observacoes": "A colaboradora Slayne Araujo está em licença maternidade.\nCom as alterações de estrutura em Operações, o Luis Kalil passou a ser o líder direto da colaboradora Carine Santos, porém a avaliação se refere ao período em que ela estava sob minha gestão, por isso preenchi o formulário.",
+    "data_envio": "31/03/2026 12:14",
+    "lista_equipe": [
+        {
+            "colaborador": "ELIANE PEREIRA DA SILVA HIDALGO",
+            "p1": "RENNAN LUCIO DE MOURA",
+            "p2": "CATERINE NUNES BARBOSA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "RENNAN LUCIO DE MOURA",
+            "p1": "ELIANE PEREIRA DA SILVA HIDALGO",
+            "p2": "CARINE REIS DOS SANTOS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "CARINE REIS DOS SANTOS",
+            "p1": "RENNAN LUCIO DE MOURA",
+            "p2": "ELIANE PEREIRA DA SILVA HIDALGO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "SLAYNE FERNANDA NERES GOMES BRUM ARAUJO",
+            "p1": "RENNAN LUCIO DE MOURA",
+            "p2": "CARINE REIS DOS SANTOS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
