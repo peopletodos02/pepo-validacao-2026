@@ -1,0 +1,60 @@
+{
+    "gestor_avaliador": "MARCELA REGGIANI MORAES",
+    "protocolo": "PEPO-202603311440",
+    "observacoes": "",
+    "data_envio": "31/03/2026 14:40",
+    "lista_equipe": [
+        {
+            "colaborador": "GABRIELA ARBELLI COLAQUISES ZAGO",
+            "p1": "ANA BEATRIZ DA SILVA COSTA",
+            "p2": "MARIA LUIZA FERREIRA PINTO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "ANA BEATRIZ DA SILVA COSTA",
+            "p1": "GABRIELA ARBELLI COLAQUISES ZAGO",
+            "p2": "KATHARYNE CRISTINA LOPES DA SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARIA LUIZA FERREIRA PINTO",
+            "p1": "ANA BEATRIZ DA SILVA COSTA",
+            "p2": "KATHARYNE CRISTINA LOPES DA SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "KATHARYNE CRISTINA LOPES DA SILVA",
+            "p1": "GABRIELA ARBELLI COLAQUISES ZAGO",
+            "p2": "MARIA LUIZA FERREIRA PINTO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
