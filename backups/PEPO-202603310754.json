@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "NUBIA AQUINO DA SILVA",
+    "protocolo": "PEPO-202603310754",
+    "observacoes": "",
+    "data_envio": "31/03/2026 07:54",
+    "lista_equipe": [
+        {
+            "colaborador": "ANA CAROLINA DE ALMEIDA CAMPOS NAKABA",
+            "p1": "GABRIELA ARAUJO DE SOUZA",
+            "p2": "REBECCA LOHAYNE BARROS VIEIRA ROCHA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "GABRIELA ARAUJO DE SOUZA",
+            "p1": "ANA CAROLINA DE ALMEIDA CAMPOS NAKABA",
+            "p2": "REBECCA LOHAYNE BARROS VIEIRA ROCHA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "REBECCA LOHAYNE BARROS VIEIRA ROCHA",
+            "p1": "GABRIELA ARAUJO DE SOUZA",
+            "p2": "ANA CAROLINA DE ALMEIDA CAMPOS NAKABA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
