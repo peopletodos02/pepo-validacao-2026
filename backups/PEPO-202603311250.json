@@ -1,0 +1,60 @@
+{
+    "gestor_avaliador": "AQUILES VILAR MOTA GUIMARAES",
+    "protocolo": "PEPO-202603311250",
+    "observacoes": "Wanderson Lage não irá participar do ciclo, pode retira-lo ",
+    "data_envio": "31/03/2026 12:50",
+    "lista_equipe": [
+        {
+            "colaborador": "RICARDO ESTEVAO DE ALMEIDA",
+            "p1": "RENNAN VILAR GUIMARAES CASTRO ANTUNES",
+            "p2": "LEON DOS REIS CALIXTO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "DANILO ALEXANDRE MONTEIRO DE CASTRO SABBAGH",
+            "p1": "ULISSES LEANDRO CARVALHO FERREIRA",
+            "p2": "LEON DOS REIS CALIXTO",
+            "status_gestor": "Não",
+            "corr_gestor": "TALES VILAR MOTA GUIMARAES",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "RENNAN VILAR GUIMARAES CASTRO ANTUNES",
+            "p1": "RICARDO ESTEVAO DE ALMEIDA",
+            "p2": "DANILO ALEXANDRE MONTEIRO DE CASTRO SABBAGH",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "WANDERSON LAGE",
+            "p1": "RENNAN VILAR GUIMARAES CASTRO ANTUNES",
+            "p2": "RICARDO ESTEVAO DE ALMEIDA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
