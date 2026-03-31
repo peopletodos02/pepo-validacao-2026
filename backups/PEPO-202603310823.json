@@ -1,0 +1,73 @@
+{
+    "gestor_avaliador": "CAROLINE PAIXÃO VIEIRA DE SENA",
+    "protocolo": "PEPO-202603310823",
+    "observacoes": "",
+    "data_envio": "31/03/2026 08:23",
+    "lista_equipe": [
+        {
+            "colaborador": "RODRIGO FERREIRA DA SILVA",
+            "p1": "JENNEFER HONORIO SOUZA",
+            "p2": "VICTORIA CAROLINNE SOLANO NOVAIS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "VICTORIA CAROLINNE SOLANO NOVAIS",
+            "p1": "STEPHANY MAGALHAES DIAS",
+            "p2": "JENNEFER HONORIO SOUZA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "JENNEFER HONORIO SOUZA",
+            "p1": "RODRIGO FERREIRA DA SILVA",
+            "p2": "VITORIA BARBOSA SENRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "STEPHANY MAGALHAES DIAS",
+            "p1": "VITORIA BARBOSA SENRA",
+            "p2": "VICTORIA CAROLINNE SOLANO NOVAIS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "VITORIA BARBOSA SENRA",
+            "p1": "STEPHANY MAGALHAES DIAS",
+            "p2": "VICTORIA CAROLINNE SOLANO NOVAIS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
