@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "JEZI FERNANDO OLIVEIRA",
+    "protocolo": "PEPO-202603311408",
+    "observacoes": "",
+    "data_envio": "31/03/2026 14:08",
+    "lista_equipe": [
+        {
+            "colaborador": "KETTULY FERNANDA ALVES DE AMORIM SANTIAGO",
+            "p1": "CAROLINE PAIXÃO VIEIRA DE SENA",
+            "p2": "THIAGO DA SILVA CHISNANDES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
