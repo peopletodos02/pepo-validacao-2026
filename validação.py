@@ -72,7 +72,6 @@ if df_base is not None:
     gestor_sel = st.selectbox("Selecione seu nome (Gestor):", [""] + lista_gestores_full)
 
     if gestor_sel:
-        # Bloco de Atenção Compacto
         st.markdown("""
         **ATENÇÃO:** Cada colaborador do seu setor deve ser avaliado por dois pares. Caso o ocupante desse cargo não tenha pares na sua estrutura, favor recomendar abaixo pares de outro setor.
         """)
@@ -119,7 +118,6 @@ if df_base is not None:
                     d_ok = st.radio("Departamento OK?", ["Sim", "Não"], key=f"d_{i}", horizontal=True)
                     d_corr = st.selectbox("Novo Departamento:", [""] + all_deptos, key=f"dc_{i}") if d_ok == "Não" else ""
 
-                # --- REGRA DE PARES ALINHADA: MESMO GESTOR + MESMO DEPTO ---
                 if tipo_avaliacao == "Sim":
                     df_par = df_base[
                         (df_base['departamento'] == row['departamento']) & 
@@ -135,8 +133,15 @@ if df_base is not None:
                 p1 = st.selectbox(f"1º Par para {nome_colab} *", op_pares, key=f"p1_{i}")
                 p2 = st.selectbox(f"2º Par para {nome_colab} *", op_pares, key=f"p2_{i}")
 
+                # --- TRAVAS DE OBRIGATORIEDADE ---
                 if p1 == "" or p2 == "" or "---" in str(p1): erro_vazio = True
                 if p1 != "" and p1 == p2: erro_duplicado = True
+                
+                # Trava: se marcou "Não", a correção é obrigatória
+                if g_ok == "Não" and g_corr == "": erro_vazio = True
+                if c_ok == "Não" and c_corr == "": erro_vazio = True
+                if u_ok == "Não" and u_corr == "": erro_vazio = True
+                if d_ok == "Não" and d_corr == "": erro_vazio = True
 
                 respostas_lote.append({
                     "colaborador": nome_colab, "p1": p1, "p2": p2,
@@ -149,8 +154,10 @@ if df_base is not None:
         campo_obs = st.text_area("Observações Gerais (opcional)")
 
         if st.button("🚀 Enviar Validação Final", type="primary"):
-            if erro_vazio: st.error("⚠️ Selecione os pares de todos os colaboradores.")
-            elif erro_duplicado: st.error("⚠️ Par 1 e Par 2 não podem ser a mesma pessoa.")
+            if erro_vazio: 
+                st.error("⚠️ Atenção: Preencha todos os pares e os campos de correção para os itens marcados como 'Não'.")
+            elif erro_duplicado: 
+                st.error("⚠️ Par 1 e Par 2 não podem ser a mesma pessoa.")
             else:
                 fuso_br = timezone(timedelta(hours=-3))
                 agora_br = datetime.now(fuso_br)
