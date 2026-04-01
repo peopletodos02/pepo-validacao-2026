@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "MARIANA DE ALBUQUERQUE LOPES",
+    "protocolo": "PEPO-202604011025",
+    "observacoes": "",
+    "data_envio": "01/04/2026 10:25",
+    "lista_equipe": [
+        {
+            "colaborador": "JULIO CESAR BARBOSA BENEDITO COSTA",
+            "p1": "MARIA LUIZA SOUZA FILGUEIRAS",
+            "p2": "RAISSA MENDES LOPES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
