@@ -1,0 +1,112 @@
+{
+    "gestor_avaliador": "MAIARA SCHWENGBER CORREA",
+    "protocolo": "PEPO-202604011714",
+    "observacoes": "Não consegui incluir os segundos avaliadores para a Caroline (que tem o nível equivalente à coordenação) e para o Luiz (que pode ser um analista da nossa área)",
+    "data_envio": "01/04/2026 17:14",
+    "lista_equipe": [
+        {
+            "colaborador": "CAMILA DA SILVA ANDRADE",
+            "p1": "NUBIA AQUINO DA SILVA",
+            "p2": "ELISANGELA PEDRO RODRIGUES OLIVEIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "ELISANGELA PEDRO RODRIGUES OLIVEIRA",
+            "p1": "NUBIA AQUINO DA SILVA",
+            "p2": "CAMILA DA SILVA ANDRADE",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "NUBIA AQUINO DA SILVA",
+            "p1": "CAMILA DA SILVA ANDRADE",
+            "p2": "ELISANGELA PEDRO RODRIGUES OLIVEIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "CAROLINE ANDRADE SANTOS BACELAR",
+            "p1": "LUIZ GUSTAVO GOMES CLEMENTE",
+            "p2": "CAROLINE ANDRADE SANTOS BACELAR",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LUIZ GUSTAVO GOMES CLEMENTE",
+            "p1": "CAROLINE ANDRADE SANTOS BACELAR",
+            "p2": "LUIZ GUSTAVO GOMES CLEMENTE",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARIANA DE ALBUQUERQUE LOPES",
+            "p1": "MARCELA REGGIANI MORAES",
+            "p2": "ELISANGELA PEDRO RODRIGUES OLIVEIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "BRAULIO PIOVEZANA RINCO",
+            "p1": "CAMILA DA SILVA ANDRADE",
+            "p2": "ELISANGELA PEDRO RODRIGUES OLIVEIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARCELA REGGIANI MORAES",
+            "p1": "NUBIA AQUINO DA SILVA",
+            "p2": "MARIANA DE ALBUQUERQUE LOPES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
