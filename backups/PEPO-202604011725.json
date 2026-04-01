@@ -1,0 +1,86 @@
+{
+    "gestor_avaliador": "DENIS GABRIEL ABREU DE MELO",
+    "protocolo": "PEPO-202604011725",
+    "observacoes": "",
+    "data_envio": "01/04/2026 17:25",
+    "lista_equipe": [
+        {
+            "colaborador": "JEFFERSON REBOUCAS RODRIGUES",
+            "p1": "RENATA MITSUE KARATO",
+            "p2": "PEDRO HENRIQUE ALVES LUZ",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "GABRIEL ARAUJO FREITAS",
+            "p1": "THIAGO FARIAS DUTRA",
+            "p2": "PEDRO HENRIQUE ALVES LUZ",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "PEDRO HENRIQUE ALVES LUZ",
+            "p1": "THIAGO FARIAS DUTRA",
+            "p2": "GABRIEL ARAUJO FREITAS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "RENATA MITSUE KARATO",
+            "p1": "CLARISSA CARLA XAVIER DA SILVA ROSA",
+            "p2": "JEFFERSON REBOUCAS RODRIGUES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "CLARISSA CARLA XAVIER DA SILVA ROSA",
+            "p1": "RENATA MITSUE KARATO",
+            "p2": "JEFFERSON REBOUCAS RODRIGUES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "THIAGO FARIAS DUTRA",
+            "p1": "GABRIEL ARAUJO FREITAS",
+            "p2": "PEDRO HENRIQUE ALVES LUZ",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
