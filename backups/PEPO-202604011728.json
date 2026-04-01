@@ -1,0 +1,34 @@
+{
+    "gestor_avaliador": "SAMUEL NUNES RIOS SILVA",
+    "protocolo": "PEPO-202604011728",
+    "observacoes": "Todos os POs, P. Ops e UX/UI agora fazem parte do time de Operações, sendo que também pertencemos ao time de Produto. Não encontrei o departamento correspondente para selecionar.\n\nOutro ponto é sobre os pares. Os UX/UI vão avaliar outros UX/UI e os P. Ops farão o mesmo com outros times? O documento ficou um pouco confuso nesse ponto.",
+    "data_envio": "01/04/2026 17:28",
+    "lista_equipe": [
+        {
+            "colaborador": "THAIS HERINGER DA SILVA",
+            "p1": "VICTOR ARAUJO PORTO",
+            "p2": "----------",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Não",
+            "corr_departamento": "OPERACOES - PROJETOS"
+        },
+        {
+            "colaborador": "VICTOR ARAUJO PORTO",
+            "p1": "THAIS HERINGER DA SILVA",
+            "p2": "----------",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Não",
+            "corr_departamento": "OPERACOES - PROJETOS"
+        }
+    ]
+}
