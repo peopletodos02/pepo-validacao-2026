@@ -1,0 +1,34 @@
+{
+    "gestor_avaliador": "RICARDO ESTEVAO DE ALMEIDA",
+    "protocolo": "PEPO-202604021037",
+    "observacoes": "",
+    "data_envio": "02/04/2026 10:37",
+    "lista_equipe": [
+        {
+            "colaborador": "JEZI FERNANDO OLIVEIRA",
+            "p1": "LORRAYNE CRISTINE THEZA DO CARMO",
+            "p2": "MAIARA SCHWENGBER CORREA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LORRAYNE CRISTINE THEZA DO CARMO",
+            "p1": "JEZI FERNANDO OLIVEIRA",
+            "p2": "LUIS FERNANDO KALIL ROSENBURG DE CASTRO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
