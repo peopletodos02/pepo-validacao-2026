@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "RENNAN VILAR GUIMARAES CASTRO ANTUNES",
+    "protocolo": "PEPO-202604020943",
+    "observacoes": "",
+    "data_envio": "02/04/2026 09:43",
+    "lista_equipe": [
+        {
+            "colaborador": "MAIARA SCHWENGBER CORREA",
+            "p1": "LORRAYNE CRISTINE THEZA DO CARMO",
+            "p2": "ALINE DE GOES CAMARGO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
