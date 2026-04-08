@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "BRUNO NUNES DE SOUZA SANTOS",
+    "protocolo": "PEPO-202604081705",
+    "observacoes": "",
+    "data_envio": "08/04/2026 17:05",
+    "lista_equipe": [
+        {
+            "colaborador": "LEONARDO OLIVEIRA SOARES SILVA",
+            "p1": "PEDRO PABLO BRAGA GARCIA",
+            "p2": "IGOR ARAUJO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "PEDRO PABLO BRAGA GARCIA",
+            "p1": "LEONARDO OLIVEIRA SOARES SILVA",
+            "p2": "IGOR ARAUJO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "IGOR ARAUJO",
+            "p1": "PEDRO PABLO BRAGA GARCIA",
+            "p2": "LEONARDO OLIVEIRA SOARES SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
