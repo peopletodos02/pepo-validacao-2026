@@ -1,0 +1,60 @@
+{
+    "gestor_avaliador": "RODNEY DUARTE DOS SANTOS",
+    "protocolo": "PEPO-202604091722",
+    "observacoes": "",
+    "data_envio": "09/04/2026 17:22",
+    "lista_equipe": [
+        {
+            "colaborador": "IVAN WALLACE DA CUNHA CASTANHEIRA",
+            "p1": "BRUNIELE DE JUNIO",
+            "p2": "NADABY HAUANE DOURADO DE OLIVEIRA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "IGOR PAULINELLI NOVAIS",
+            "p1": "BRUNIELE DE JUNIO",
+            "p2": "RAFAELA MOTA MEIRELES DO NASCIMENTO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "BRUNIELE DE JUNIO",
+            "p1": "JOÃO MARIO DE OLIVEIRA FREITAS",
+            "p2": "DENIS SIQUEIRA MOURA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "JOÃO MARIO DE OLIVEIRA FREITAS",
+            "p1": "BRUNIELE DE JUNIO",
+            "p2": "TAILY PEREIRA DE CARVALHO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
