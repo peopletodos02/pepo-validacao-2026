@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "ANDRE NADDEO",
+    "protocolo": "PEPO-202604091739",
+    "observacoes": "",
+    "data_envio": "09/04/2026 17:39",
+    "lista_equipe": [
+        {
+            "colaborador": "AMANDA RIBEIRO JARDIM OLIVEIRA DE SOUZA",
+            "p1": "VICTORIA CAROLINNE SOLANO NOVAIS",
+            "p2": "LORRAYNE CRISTINE THEZA DO CARMO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
