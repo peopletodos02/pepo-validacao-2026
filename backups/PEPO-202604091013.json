@@ -1,0 +1,73 @@
+{
+    "gestor_avaliador": "KETTULY FERNANDA ALVES DE AMORIM SANTIAGO",
+    "protocolo": "PEPO-202604091013",
+    "observacoes": "",
+    "data_envio": "09/04/2026 10:13",
+    "lista_equipe": [
+        {
+            "colaborador": "JESSYCA MONIQUE RODRIGUES",
+            "p1": "GERALDO GLICERIO DA SILVA JUNIOR",
+            "p2": "RAISSA MENDES LOPES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "GERALDO GLICERIO DA SILVA JUNIOR",
+            "p1": "JESSYCA MONIQUE RODRIGUES",
+            "p2": "LUIZ GUSTAVO FERREIRA DOS REIS",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LARISSA MARQUES ANASTACIO",
+            "p1": "JESSYCA MONIQUE RODRIGUES",
+            "p2": "GERALDO GLICERIO DA SILVA JUNIOR",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LUIZ GUSTAVO FERREIRA DOS REIS",
+            "p1": "RAISSA MENDES LOPES",
+            "p2": "GERALDO GLICERIO DA SILVA JUNIOR",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "RAISSA MENDES LOPES",
+            "p1": "JESSYCA MONIQUE RODRIGUES",
+            "p2": "LARISSA MARQUES ANASTACIO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
