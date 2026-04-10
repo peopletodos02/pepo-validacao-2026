@@ -1,0 +1,86 @@
+{
+    "gestor_avaliador": "ELIANE PEREIRA DA SILVA HIDALGO",
+    "protocolo": "PEPO-202604101533",
+    "observacoes": "",
+    "data_envio": "10/04/2026 15:33",
+    "lista_equipe": [
+        {
+            "colaborador": "KARLA KAROLINY TIAGO DA PAIVA",
+            "p1": "MARIANA CRISTINA PEREIRA LOPES",
+            "p2": "MARCELA ALVES SILVA NEPOMUCENO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARIANA CRISTINA PEREIRA LOPES",
+            "p1": "KARLA KAROLINY TIAGO DA PAIVA",
+            "p2": "MARCELA ALVES SILVA NEPOMUCENO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "TATIANE CRISTINA DAS MERCES",
+            "p1": "KARLA KAROLINY TIAGO DA PAIVA",
+            "p2": "MARIANA CRISTINA PEREIRA LOPES",
+            "status_gestor": "Não",
+            "corr_gestor": "RENNAN LUCIO DE MOURA",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "TAYNARA CANDIDO SATURNO DA SILVA",
+            "p1": "LUCAS ALVES DUARTE",
+            "p2": "PEDRO AUGUSTO LEAO LIMA",
+            "status_gestor": "Não",
+            "corr_gestor": "RENNAN LUCIO DE MOURA",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LUCAS ALVES DUARTE",
+            "p1": "TAYNARA CANDIDO SATURNO DA SILVA",
+            "p2": "PEDRO AUGUSTO LEAO LIMA",
+            "status_gestor": "Não",
+            "corr_gestor": "RENNAN LUCIO DE MOURA",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "PEDRO AUGUSTO SANTANA SILVA",
+            "p1": "TAYNARA CANDIDO SATURNO DA SILVA",
+            "p2": "LUCAS ALVES DUARTE",
+            "status_gestor": "Não",
+            "corr_gestor": "RENNAN LUCIO DE MOURA",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
