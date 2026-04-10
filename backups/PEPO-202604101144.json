@@ -1,0 +1,21 @@
+{
+    "gestor_avaliador": "RAMON BARCELOS VILAR GUIMARÃES",
+    "protocolo": "PEPO-202604101144",
+    "observacoes": "Os dois AR foram indicados por já trabalharem com o Alex há mais tempo, além de demonstrarem maturidade funcional para realizarem a avaliação sem levar em conta somente a hierarquia.",
+    "data_envio": "10/04/2026 11:44",
+    "lista_equipe": [
+        {
+            "colaborador": "ALEX ALVARES PIMENTEL MACIEL",
+            "p1": "RAFAEL AZEVEDO REIS",
+            "p2": "THIAGO RODRIGUES INÁCIO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
