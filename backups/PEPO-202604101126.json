@@ -1,0 +1,47 @@
+{
+    "gestor_avaliador": "DANILO ALEXANDRE MONTEIRO DE CASTRO SABBAGH",
+    "protocolo": "PEPO-202604101126",
+    "observacoes": "lUIS ANO RESPONDE MAIS PARA MIM ",
+    "data_envio": "10/04/2026 11:26",
+    "lista_equipe": [
+        {
+            "colaborador": "RONALDO BRUNO DE SOUZA SANTOS",
+            "p1": "VANUZA DOS SANTOS PRESTES",
+            "p2": "LUIS FERNANDO KALIL ROSENBURG DE CASTRO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "LUIS FERNANDO KALIL ROSENBURG DE CASTRO",
+            "p1": "ADALBERTO MARTINS DE ARQUISA",
+            "p2": "ALESSANDRA DE AZEVEDO RIBEIRO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "VANUZA DOS SANTOS PRESTES",
+            "p1": "RONALDO BRUNO DE SOUZA SANTOS",
+            "p2": "LUIS FERNANDO KALIL ROSENBURG DE CASTRO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
