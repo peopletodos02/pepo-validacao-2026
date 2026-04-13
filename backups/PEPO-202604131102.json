@@ -1,0 +1,73 @@
+{
+    "gestor_avaliador": "SANDRO YUKIO YAMANO",
+    "protocolo": "PEPO-202604131102",
+    "observacoes": "Não pedi para avaliarem a Dona Cida, pois ela está saindo da empresa com a aposentadoria já concedida.",
+    "data_envio": "13/04/2026 11:02",
+    "lista_equipe": [
+        {
+            "colaborador": "MARIA APARECIDA FERRAZ",
+            "p1": "MARIA DO CARMO SILVA",
+            "p2": "RAIANE JAMILLY ALVES SIMPLICIO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARIA DO CARMO SILVA",
+            "p1": "ISADORA MARIA DIAS DE CARVALHO",
+            "p2": "MARCOS VINICIUS DA SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "ISADORA MARIA DIAS DE CARVALHO",
+            "p1": "MARCOS VINICIUS DA SILVA",
+            "p2": "RAIANE JAMILLY ALVES SIMPLICIO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "RAIANE JAMILLY ALVES SIMPLICIO",
+            "p1": "ISADORA MARIA DIAS DE CARVALHO",
+            "p2": "MARIA DO CARMO SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "MARCOS VINICIUS DA SILVA",
+            "p1": "RAIANE JAMILLY ALVES SIMPLICIO",
+            "p2": "MARIA DO CARMO SILVA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
