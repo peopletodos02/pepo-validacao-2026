@@ -1,0 +1,99 @@
+{
+    "gestor_avaliador": "CARINE REIS DOS SANTOS",
+    "protocolo": "PEPO-202604141543",
+    "observacoes": "",
+    "data_envio": "14/04/2026 15:43",
+    "lista_equipe": [
+        {
+            "colaborador": "MARCELA ALVES SILVA NEPOMUCENO",
+            "p1": "SABRINE ALVES DA CUNHA",
+            "p2": "HENRIQUE WOLLMER",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "SABRINE ALVES DA CUNHA",
+            "p1": "HENRIQUE WOLLMER",
+            "p2": "THAMIRES DE ARAUJO RODRIGUES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "VITOR DE MELO FRANÇA",
+            "p1": "HENRIQUE WOLLMER",
+            "p2": "WANESSA FRANCIELE RODRIGUES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "WANESSA FRANCIELE RODRIGUES",
+            "p1": "HENRIQUE WOLLMER",
+            "p2": "VITOR DE MELO FRANÇA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "HENRIQUE WOLLMER",
+            "p1": "VITOR DE MELO FRANÇA",
+            "p2": "WANESSA FRANCIELE RODRIGUES",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "THAMIRES DE ARAUJO RODRIGUES",
+            "p1": "THAIS POVOA FREITAS COSTA",
+            "p2": "MARCELA ALVES SILVA NEPOMUCENO",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        },
+        {
+            "colaborador": "THAIS POVOA FREITAS COSTA",
+            "p1": "THAMIRES DE ARAUJO RODRIGUES",
+            "p2": "SABRINE ALVES DA CUNHA",
+            "status_gestor": "Sim",
+            "corr_gestor": "",
+            "status_cargo": "Sim",
+            "corr_cargo": "",
+            "status_unidade": "Sim",
+            "corr_unidade": "",
+            "status_departamento": "Sim",
+            "corr_departamento": ""
+        }
+    ]
+}
